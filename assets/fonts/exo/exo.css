@@ -1,0 +1,126 @@
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 100;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t040FmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 200;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t0Y0BmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t0vUBmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t040BmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t00UBmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t0PUdmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t0BEdmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t0Y0dmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: italic;
+  font-weight: 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UafrEtFpBISdmSt-MY2ehbO95t0SkdmPg.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 100;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4lM2CwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 200;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4tM3CwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4g03CwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4lM3CwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4mE3CwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4o0wCwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4rQwCwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 800;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4tMwCwM.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'Exo';
+  font-style: normal;
+  font-weight: 900;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/exo/v21/4UaZrEtFpBI4f1ZSIK9d4LjJ4vowCwM.ttf) format('truetype');
+}
