@@ -35,7 +35,12 @@ dev_dependencies:
   json_serializable: ^6.7.1
   intl_utils: ^2.8.4
   build_runner: ^2.4.6
+  flutter_launcher_icons: ^0.14.4
 
+flutter_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/app_logo.jpg"
 
 flutter:
   uses-material-design: true
