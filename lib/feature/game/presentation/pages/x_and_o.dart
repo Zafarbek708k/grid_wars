@@ -1,9 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grid_wars/core/constants/app_colors.dart';
-import 'package:grid_wars/core/constants/app_images.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
 import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
@@ -125,11 +123,11 @@ class _XAndOState extends State<XAndO> {
                               child: item.icon.isEmpty
                                   ? const SizedBox()
                                   : SvgPicture.asset(
-                                      item.icon,
-                                      width: 48,
-                                      height: 48,
-                                      colorFilter: ColorFilter.mode(item.color, BlendMode.srcIn),
-                                    ),
+                                item.icon,
+                                width: 48,
+                                height: 48,
+                                colorFilter: ColorFilter.mode(item.color, BlendMode.srcIn),
+                              ),
                             ),
                           ),
                         ),
