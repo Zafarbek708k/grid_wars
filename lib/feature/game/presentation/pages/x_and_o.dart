@@ -1,10 +1,13 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/app_images.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
 import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
+import 'package:grid_wars/feature/settings/pages/setting_screen.dart';
 
 class XAndO extends StatefulWidget {
   const XAndO({super.key});
@@ -14,21 +17,34 @@ class XAndO extends StatefulWidget {
 }
 
 class _XAndOState extends State<XAndO> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       extendBodyBehindAppBar: true,
       backgroundColor: Colors.transparent,
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColors.white.withValues(alpha: 0.1),
-        title: const Text(
-          'Tic Tac Toe',
-          style: TextStyle(fontSize: 26, fontWeight: FontWeight.w700, color: AppColors.white),
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Grid Wars',
+          style: context.textTheme.bodyLarge?.copyWith(
+            color: context.themeExtension.whiteToCyan,
+            fontWeight: FontWeight.w900,
+          ),
         ),
+        actions: [
+          AnimatedButton(
+            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SettingScreen())),
+            child: Icon(Icons.settings, color: context.themeExtension.whiteToCyan),
+          ),
+          const SizedBox(width: 12),
+        ],
       ),
-
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(

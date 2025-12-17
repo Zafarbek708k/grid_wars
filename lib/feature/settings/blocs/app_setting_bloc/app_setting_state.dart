@@ -15,30 +15,23 @@ class AppSettingState extends Equatable {
     this.locale = 'uz',
   });
 
+  AppSettingState copyWith({
+    ThemeMode? selectedTheme,
+    FormzSubmissionStatus? themeStatus,
+    ThemeEnum? themeEnum,
+    LanguageEnum? languageEnum,
+    String? locale,
+  }) {
+    return AppSettingState(
+      selectedTheme: selectedTheme ?? this.selectedTheme,
+      themeStatus: themeStatus ?? this.themeStatus,
+      themeEnum: themeEnum ?? this.themeEnum,
+      languageEnum: languageEnum ?? this.languageEnum,
+      locale: locale ?? this.locale,
+    );
+  }
+
+
   @override
   List<Object?> get props => [selectedTheme, themeStatus, themeEnum, languageEnum, locale];
-}
-
-enum ThemeEnum {
-  light(name: "", icon: ""),
-  dark(name: "", icon: ""),
-  system(name: "", icon: "");
-
-  final String name;
-  final String icon;
-
-  const ThemeEnum({required this.name, required this.icon});
-}
-
-enum LanguageEnum {
-  uzbek(name: "Uzbek", languageCode: "uz", countryCode: "UZ", locale: const Locale("uz", "UZ")),
-  russian(name: "Russian", languageCode: "ru", countryCode: "RU", locale: Locale("ru", "RU")),
-  english(name: "English", languageCode: "en", countryCode: "EN", locale: Locale("en", "EN"));
-
-  final String name;
-  final String languageCode;
-  final String countryCode;
-  final Locale locale;
-
-  const LanguageEnum({required this.name, required this.languageCode, required this.countryCode, required this.locale});
 }

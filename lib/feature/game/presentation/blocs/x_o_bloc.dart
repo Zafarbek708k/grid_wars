@@ -22,7 +22,6 @@ class XOBloc extends Bloc<XOEvent, XOState> {
     newBoard[event.index] = state.currentPlayer;
 
     final winResult = _checkWinner(newBoard);
-
     if (winResult != null) {
       emit(
         state.copyWith(board: newBoard, winner: winResult['winner'], isGameOver: true, winningLine: winResult['line']),

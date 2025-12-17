@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1030515949076",
+    "project_id": "gridwars-76994",
+    "storage_bucket": "gridwars-76994.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1030515949076:android:008206f96a3ee39a12b101",
+        "android_client_info": {
+          "package_name": "com.karimov.gridwars.grid_wars"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUJHg6wAP9GIeFjDvlINAgxdf2G3goNP8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

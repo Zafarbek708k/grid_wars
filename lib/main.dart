@@ -1,21 +1,24 @@
 import 'dart:async';
 
-import 'package:flutter/foundation.dart';
+import 'package:firebase_analytics/firebase_analytics.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/theme/dark.dart';
 import 'package:grid_wars/core/theme/light.dart';
 import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
-import 'package:grid_wars/feature/game/presentation/pages/x_and_o.dart';
 import 'package:grid_wars/feature/init/pages/splash.dart';
 import 'package:grid_wars/feature/settings/blocs/app_setting_bloc/app_setting_bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
+import 'firebase_options.dart';
 
 void main() async {
-  // WidgetsFlutterBinding.ensureInitialized();
-
   runZonedGuarded(
-    () {
-      runApp(const MyApp());
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+      FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+      runApp(MyApp(analytics: analytics));
     },
     (error, path) {
       debugPrint("Error: $error\nPath: $path\n\n");
@@ -24,13 +27,15 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({super.key, required this.analytics});
+
+  final FirebaseAnalytics analytics;
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AppSettingBloc()),
+        BlocProvider(create: (context) => AppSettingBloc()..add(const LoadThemeEvent())),
         BlocProvider(create: (context) => XOBloc()),
       ],
       child: BlocBuilder<AppSettingBloc, AppSettingState>(
@@ -42,9 +47,10 @@ class MyApp extends StatelessWidget {
         builder: (context, state) {
           return MaterialApp(
             title: 'Grid Wars',
-            debugShowCheckedModeBanner: kDebugMode,
+            debugShowCheckedModeBanner: false,
             darkTheme: Dark.theme(),
             theme: Light.theme(),
+            navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
             themeMode: state.selectedTheme,
             home: const Splash(),
           );
