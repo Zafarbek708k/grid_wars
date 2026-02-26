@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:formz/formz.dart';
@@ -45,7 +46,6 @@ class AppSettingBloc extends Bloc<AppSettingEvent, AppSettingState> {
 
   FutureOr<void> _onChangeLanguage(ChangeLanguageEvent event, Emitter<AppSettingState> emit) async {
     await StorageRepository.putString(StorageKeys.selectedLanguage, event.languageEnum.languageCode);
-    log("Changed language: ${event.languageEnum.languageCode}");
     emit(state.copyWith(languageEnum: event.languageEnum, locale: event.languageEnum.languageCode));
 
     final val = StorageRepository.getString(StorageKeys.selectedLanguage);

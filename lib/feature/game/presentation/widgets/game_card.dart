@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart' show SvgPicture;
+import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
 
@@ -39,7 +40,13 @@ class GameCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (imageUrl.endsWith(".svg")) ...{
-            SvgPicture.asset(imageUrl, height: 130, width: double.infinity, fit: BoxFit.cover),
+            SvgPicture.asset(
+              imageUrl,
+              height: 130,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              colorFilter: ColorFilter.mode(AppColors.cyan, BlendMode.srcIn),
+            ),
           } else ...{
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
@@ -73,28 +80,27 @@ class GameCard extends StatelessWidget {
 
           const SizedBox(height: 16),
 
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            child: AnimatedButton(
-              onTap: play,
-              child: Container(
-                height: 44,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  gradient: const LinearGradient(colors: [Colors.cyan, Color(0xFF00BCD4)]),
-                  boxShadow: [
-                    BoxShadow(color: Colors.cyan.withValues(alpha: 0.6), blurRadius: 15, offset: const Offset(0, 6)),
-                  ],
-                ),
-                alignment: Alignment.center,
-                child: const Text(
-                  "PLAY",
-                  style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2, color: Colors.black),
-                ),
-              ),
-            ),
-          ),
-
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 16),
+          //   child: AnimatedButton(
+          //     onTap: play,
+          //     child: Container(
+          //       height: 44,
+          //       decoration: BoxDecoration(
+          //         borderRadius: BorderRadius.circular(14),
+          //         gradient: const LinearGradient(colors: [Colors.cyan, Color(0xFF00BCD4)]),
+          //         boxShadow: [
+          //           BoxShadow(color: Colors.cyan.withValues(alpha: 0.6), blurRadius: 15, offset: const Offset(0, 6)),
+          //         ],
+          //       ),
+          //       alignment: Alignment.center,
+          //       child: const Text(
+          //         "PLAY",
+          //         style: TextStyle(fontWeight: FontWeight.bold, letterSpacing: 1.2, color: Colors.black),
+          //       ),
+          //     ),
+          //   ),
+          // ),
           const SizedBox(height: 18),
         ],
       ),

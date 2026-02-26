@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/constants/app_colors.dart';
@@ -27,36 +28,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              ProfileHeader(),
-              ProfileCard(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Best Players", style: context.textTheme.headlineMedium),
-                    Wrap(
-                      children: [
-                        ///
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              ProfileCard(
-                child: Column(
-                  spacing: 4,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("Best Scores", style: context.textTheme.headlineMedium),
-                    ...List.generate(defaultScores.length, (i) => ScoreCard(score: defaultScores[i])),
-                  ],
-                ),
-              ),
+              // ProfileHeader(),
+              // ProfileCard(
+              //   child: Column(
+              //     mainAxisSize: MainAxisSize.min,
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text("Best Players", style: context.textTheme.headlineMedium),
+              //       Wrap(
+              //         children: [
+              //           ///
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // ProfileCard(
+              //   child: Column(
+              //     spacing: 4,
+              //     mainAxisSize: MainAxisSize.min,
+              //     crossAxisAlignment: CrossAxisAlignment.start,
+              //     children: [
+              //       Text("Best Scores", style: context.textTheme.headlineMedium),
+              //       ...List.generate(defaultScores.length, (i) => ScoreCard(score: defaultScores[i])),
+              //     ],
+              //   ),
+              // ),
               ProfileCard(
                 child: BlocSelector<AppSettingBloc, AppSettingState, LanguageEnum>(
                   selector: (state) => state.languageEnum,
-                  builder: (context, locale) {
+                  builder: (ctx, locale) {
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -73,7 +74,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ...List.generate(LanguageEnum.values.length, (i) {
                           final language = LanguageEnum.values[i];
                           return LanguageCard(
-                            onTap: () => context.read<AppSettingBloc>().add(ChangeLanguageEvent(language)),
+                            onTap: () {
+                              context.setLocale(Locale(language.languageCode));
+                              context.read<AppSettingBloc>().add(ChangeLanguageEvent(language));
+                            },
                             language: language,
                             isSelected: language == locale,
                           );

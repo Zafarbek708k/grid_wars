@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -19,11 +20,21 @@ void main() async {
   runZonedGuarded(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
+      await EasyLocalization.ensureInitialized();
       await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
       await StorageRepository.getInstance();
       FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-      runApp(MyApp(analytics: analytics));
+      runApp(
+        EasyLocalization(
+          supportedLocales: const [Locale('en'), Locale('ru'), Locale('uz')],
+          path: 'assets/translations',
+          fallbackLocale: const Locale('en'),
+          saveLocale: true,
+
+          child: MyApp(analytics: analytics),
+        ),
+      );
     },
     (error, path) {
       debugPrint("Error: $error\nPath: $path\n\n");
@@ -62,6 +73,9 @@ class MyApp extends StatelessWidget {
             darkTheme: Dark.theme(),
             theme: Light.theme(),
             navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
+            locale: context.locale,
+            supportedLocales: context.supportedLocales,
+            localizationsDelegates: context.localizationDelegates,
             // themeMode: state.selectedTheme,
             themeMode: ThemeMode.dark,
             home: const Splash(),
