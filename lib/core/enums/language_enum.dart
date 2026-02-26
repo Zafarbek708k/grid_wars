@@ -12,7 +12,7 @@ enum LanguageEnum {
 
   const LanguageEnum({required this.name, required this.languageCode, required this.countryCode, required this.locale});
 
-  LanguageEnum fromString(String code) {
+  static LanguageEnum fromString(String code) {
     return LanguageEnum.values.firstWhere((element) => element.languageCode == code, orElse: () => LanguageEnum.uzbek);
   }
 }

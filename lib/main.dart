@@ -4,12 +4,15 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grid_wars/core/service/storage_service.dart';
 import 'package:grid_wars/core/theme/dark.dart';
 import 'package:grid_wars/core/theme/light.dart';
 import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
 import 'package:grid_wars/feature/init/pages/splash.dart';
-import 'package:grid_wars/feature/settings/blocs/app_setting_bloc/app_setting_bloc.dart';
+import 'package:grid_wars/feature/navigation/presentation/blocs/navigator_cubit.dart';
+import 'package:grid_wars/feature/settings/presentation/blocs/app_config_bloc/app_config_bloc.dart';
 
+import 'feature/settings/presentation/blocs/app_setting_bloc/app_setting_bloc.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -17,7 +20,9 @@ void main() async {
     () async {
       WidgetsFlutterBinding.ensureInitialized();
       await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+      await StorageRepository.getInstance();
       FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+
       runApp(MyApp(analytics: analytics));
     },
     (error, path) {
@@ -35,8 +40,14 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => AppSettingBloc()..add(const LoadThemeEvent())),
         BlocProvider(create: (context) => XOBloc()),
+        BlocProvider(create: (context) => BottomNavigationBarCubit()),
+        BlocProvider(
+          create: (context) => AppSettingBloc()
+            ..add(const LoadThemeEvent())
+            ..add(LoadLanguageEvent()),
+        ),
+        BlocProvider(create: (context) => AppConfigBloc()..add(InitializeConfigEvent())),
       ],
       child: BlocBuilder<AppSettingBloc, AppSettingState>(
         buildWhen: (o, n) {
@@ -51,7 +62,8 @@ class MyApp extends StatelessWidget {
             darkTheme: Dark.theme(),
             theme: Light.theme(),
             navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
-            themeMode: state.selectedTheme,
+            // themeMode: state.selectedTheme,
+            themeMode: ThemeMode.dark,
             home: const Splash(),
           );
         },

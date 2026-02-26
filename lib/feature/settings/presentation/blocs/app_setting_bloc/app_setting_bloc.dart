@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
@@ -18,8 +19,8 @@ class AppSettingBloc extends Bloc<AppSettingEvent, AppSettingState> {
     on<AppSettingEvent>((event, emit) {});
     on<LoadThemeEvent>(_onLoadTheme);
     on<ChangeThemeEvent>(_changeTheme);
-    on<LoadLanguageEvent>((event, emit) {});
-    on<ChangeLanguageEvent>((event, emit) {});
+    on<LoadLanguageEvent>(_onLoadLanguage);
+    on<ChangeLanguageEvent>(_onChangeLanguage);
   }
 
   FutureOr<void> _onLoadTheme(LoadThemeEvent event, Emitter<AppSettingState> emit) async {
@@ -32,5 +33,22 @@ class AppSettingBloc extends Bloc<AppSettingEvent, AppSettingState> {
   FutureOr<void> _changeTheme(ChangeThemeEvent event, Emitter<AppSettingState> emit) async {
     await StorageRepository.putString(StorageKeys.selectedTheme, event.themeEnum.title);
     emit(state.copyWith(selectedTheme: event.themeEnum.mode, themeEnum: event.themeEnum));
+  }
+
+  FutureOr<void> _onLoadLanguage(LoadLanguageEvent event, Emitter<AppSettingState> emit) async {
+    final String language = StorageRepository.getString(StorageKeys.selectedLanguage);
+    final savedLanguage = LanguageEnum.fromString(language);
+
+    log("Loaded language: $language, Saved language enum: $savedLanguage");
+    emit(state.copyWith(languageEnum: savedLanguage, locale: savedLanguage.languageCode));
+  }
+
+  FutureOr<void> _onChangeLanguage(ChangeLanguageEvent event, Emitter<AppSettingState> emit) async {
+    await StorageRepository.putString(StorageKeys.selectedLanguage, event.languageEnum.languageCode);
+    log("Changed language: ${event.languageEnum.languageCode}");
+    emit(state.copyWith(languageEnum: event.languageEnum, locale: event.languageEnum.languageCode));
+
+    final val = StorageRepository.getString(StorageKeys.selectedLanguage);
+    log("Stored language in storage: $val");
   }
 }

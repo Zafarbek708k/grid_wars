@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 abstract class AppColors {
   static const white = Color(0xffFFFFFF);
   static const black = Color(0xff000000);
@@ -18,4 +20,21 @@ abstract class AppColors {
   static const amber = Color(0xffFFC107);
   static const indigo = Color(0xff3949AB);
   static const lime = Color(0xffCDDC39);
+
+  // shader
+
+  // AppColors.cyanToPurple.createShader(rect),
+
+  static const LinearGradient cyanToPurple = LinearGradient(
+    colors: [cyan, purple],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
+
+  // disabled gradient
+  static const LinearGradient disabledGradient = LinearGradient(
+    colors: [grey, black],
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+  );
 }

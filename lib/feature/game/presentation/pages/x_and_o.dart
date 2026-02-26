@@ -5,7 +5,7 @@ import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
 import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
-import 'package:grid_wars/feature/settings/pages/setting_screen.dart';
+import 'package:grid_wars/feature/settings/presentation/pages/setting_screen.dart';
 
 class XAndO extends StatefulWidget {
   const XAndO({super.key});
@@ -27,13 +27,17 @@ class _XAndOState extends State<XAndO> {
         centerTitle: true,
         elevation: 0,
         backgroundColor: AppColors.white.withValues(alpha: 0.1),
-        automaticallyImplyLeading: false,
+        automaticallyImplyLeading: true,
         title: Text(
           'Grid Wars',
           style: context.textTheme.bodyLarge?.copyWith(
             color: context.themeExtension.whiteToCyan,
             fontWeight: FontWeight.w900,
           ),
+        ),
+        leading: AnimatedButton(
+          child: Icon(Icons.arrow_back_ios, color: context.themeExtension.whiteToCyan),
+          onTap: () => Navigator.of(context).pop(),
         ),
         actions: [
           AnimatedButton(
@@ -123,11 +127,11 @@ class _XAndOState extends State<XAndO> {
                               child: item.icon.isEmpty
                                   ? const SizedBox()
                                   : SvgPicture.asset(
-                                item.icon,
-                                width: 48,
-                                height: 48,
-                                colorFilter: ColorFilter.mode(item.color, BlendMode.srcIn),
-                              ),
+                                      item.icon,
+                                      width: 48,
+                                      height: 48,
+                                      colorFilter: ColorFilter.mode(item.color, BlendMode.srcIn),
+                                    ),
                             ),
                           ),
                         ),

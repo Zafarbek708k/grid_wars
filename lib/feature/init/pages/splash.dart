@@ -1,10 +1,11 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
-import 'package:grid_wars/feature/game/presentation/pages/x_and_o.dart';
+import 'package:grid_wars/feature/navigation/main_navigation.dart';
+import 'package:grid_wars/feature/settings/presentation/blocs/app_config_bloc/app_config_bloc.dart';
 
 class Splash extends StatefulWidget {
   const Splash({super.key});
@@ -20,6 +21,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   @override
   void initState() {
     super.initState();
+    context.read<AppConfigBloc>().add(InitializeConfigEvent());
     _controller = AnimationController(vsync: this, duration: const Duration(seconds: 2))..forward();
     _scale = CurvedAnimation(parent: _controller, curve: Curves.easeOutBack);
     _navigate();
@@ -28,7 +30,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
   Future<void> _navigate() async {
     await Future.delayed(const Duration(seconds: 2));
     if (mounted) {
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const XAndO()), (_) => false);
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (_) => const MainNavigation()), (_) => false);
     }
   }
 

@@ -5,7 +5,7 @@ import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/app_images.dart';
 import 'package:grid_wars/core/enums/theme_enum.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/settings/blocs/app_setting_bloc/app_setting_bloc.dart';
+import 'package:grid_wars/feature/settings/presentation/blocs/app_setting_bloc/app_setting_bloc.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
