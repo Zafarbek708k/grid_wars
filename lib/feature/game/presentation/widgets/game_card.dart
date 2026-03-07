@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart' show SvgPicture;
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
 
 class GameCard extends StatelessWidget {
   const GameCard({

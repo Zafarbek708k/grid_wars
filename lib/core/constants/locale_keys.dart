@@ -32,4 +32,8 @@ abstract class LocaleKeys {
   static const String level = 'level';
   static const String lives = 'lives';
   static const String time = 'time';
+  static const String language = 'language';
+  static const String home = 'home';
+  static const String profile = 'profile';
+  static const String games = 'games';
 }

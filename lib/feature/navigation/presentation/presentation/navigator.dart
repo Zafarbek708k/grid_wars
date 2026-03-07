@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
+import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/feature/game/presentation/pages/game_screen.dart';
 import 'package:grid_wars/feature/home/presentation/pages/home_screen.dart';
 import 'package:grid_wars/feature/profile/presentation/pages/profile_screen.dart';
@@ -9,13 +10,14 @@ class TabNavigatorRoutes {
 }
 
 enum NavBarEnum {
-  home(icon: AppIcons.home),
-  games(icon: AppIcons.game),
-  profile(icon: AppIcons.userCircle);
+  home(title: LocaleKeys.home, icon: AppIcons.home),
+  games(title: LocaleKeys.games, icon: AppIcons.game),
+  profile(title: LocaleKeys.profile, icon: AppIcons.userCircle);
 
-  const NavBarEnum({required this.icon});
+  const NavBarEnum({required this.icon, this.title = ""});
 
   final String icon;
+  final String title;
 
   bool get isMenu => this == NavBarEnum.home;
 
@@ -49,7 +51,7 @@ class _TabNavigatorState extends State<TabNavigator> with AutomaticKeepAliveClie
         final routeBuilders = _routeBuilders(context: context, routeSettings: routeSettings);
         return MaterialPageRoute(
           builder: (context) =>
-              routeBuilders.containsKey(routeSettings.name) ? routeBuilders[routeSettings.name]!(context) : Container(),
+          routeBuilders.containsKey(routeSettings.name) ? routeBuilders[routeSettings.name]!(context) : Container(),
         );
       },
     );

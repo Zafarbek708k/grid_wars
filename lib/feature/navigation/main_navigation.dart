@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -85,12 +86,10 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
             ),
             floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
             floatingActionButton: Container(
-              height: 62,
-              padding: const EdgeInsets.fromLTRB(0, 4, 0, 0),
-              margin: const EdgeInsets.fromLTRB(12, 0, 12, 0),
+              height: 65,
+              margin: const EdgeInsets.fromLTRB(12, 0, 12, 16),
               decoration: BoxDecoration(
                 color: Color.fromRGBO(12, 43, 62, 1),
-                // color: AppColors.white.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(12),
                 border: Border.all(color: context.themeExtension.whiteToCyan, width: 1.2),
               ),
@@ -98,32 +97,28 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
                 child: ValueListenableBuilder(
                   valueListenable: _currentIndex,
                   builder: (context, page, child) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Row(
-                          children: List.generate(NavBarEnum.values.length, (index) {
-                            return Expanded(
-                              child: AnimatedButton(
-                                onTap: () {
-                                  if (Platform.isIOS) {
-                                    HapticFeedback.lightImpact();
-                                  } else {
-                                    Vibration.vibrate(duration: 50, amplitude: 1, sharpness: 2);
-                                  }
-                                  context.read<BottomNavigationBarCubit>().changeIndex(index);
-                                },
-                                child: NavItemWidget(
-                                  value: index,
-                                  groupValue: page,
-                                  icon: NavBarEnum.values[index].icon,
-                                  title: _title(context, NavBarEnum.values[index]),
-                                ),
-                              ),
-                            );
-                          }),
-                        ),
-                      ],
+                    return Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: List.generate(NavBarEnum.values.length, (index) {
+                        return Expanded(
+                          child: AnimatedButton(
+                            onTap: () {
+                              if (Platform.isIOS) {
+                                HapticFeedback.lightImpact();
+                              } else {
+                                Vibration.vibrate(duration: 50, amplitude: 1, sharpness: 2);
+                              }
+                              context.read<BottomNavigationBarCubit>().changeIndex(index);
+                            },
+                            child: NavItemWidget(
+                              value: index,
+                              groupValue: page,
+                              icon: NavBarEnum.values[index].icon,
+                              title: NavBarEnum.values[index].title.tr(),
+                            ),
+                          ),
+                        );
+                      }),
                     );
                   },
                 ),
@@ -133,17 +128,6 @@ class _MainNavigationState extends State<MainNavigation> with TickerProviderStat
         ),
       ),
     );
-  }
-
-  String _title(BuildContext context, NavBarEnum item) {
-    switch (item) {
-      case NavBarEnum.home:
-        return "Home";
-      case NavBarEnum.games:
-        return "Games";
-      case NavBarEnum.profile:
-        return "Profile";
-    }
   }
 
   Widget _buildPageNavigator(NavBarEnum tabItem) {

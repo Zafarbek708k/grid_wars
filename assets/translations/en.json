@@ -31,5 +31,8 @@
   "you_lose": "You Lose!",
   "score": "Score",
   "level": "Level",
-  "time": "Time"
+  "time": "Time",
+  "home": "Home",
+  "profile": "Profile",
+  "games": "Games"
 }

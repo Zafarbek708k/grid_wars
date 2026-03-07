@@ -30,7 +30,9 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(LocaleKeys.playNow.tr(), style: context.textTheme.bodyMedium),
             ),
             const SizedBox(height: 12),
-            ...List.generate(HomeScreenApps.values.where((e) => e.isActive).length, (i) {
+            ...List.generate(HomeScreenApps.values
+                .where((e) => e.isActive)
+                .length, (i) {
               final item = HomeScreenApps.values[i];
               if (!item.isActive) return SizedBox.shrink();
               return PlayCard(
@@ -45,7 +47,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(LocaleKeys.comingSoon, style: context.textTheme.bodyMedium),
+              child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),
             ),
             const SizedBox(height: 12),
 
@@ -53,7 +55,9 @@ class _HomeScreenState extends State<HomeScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              itemCount: HomeScreenApps.values.where((e) => !e.isActive).length,
+              itemCount: HomeScreenApps.values
+                  .where((e) => !e.isActive)
+                  .length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12,

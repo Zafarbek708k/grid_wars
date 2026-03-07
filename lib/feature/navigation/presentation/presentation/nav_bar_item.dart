@@ -47,6 +47,8 @@ class NavItemWidget extends StatelessWidget {
                 color: isActive ? AppColors.cyan : AppColors.white,
               ),
             ),
+          } else ...{
+            const SizedBox(height: 12),
           },
         ],
       ),

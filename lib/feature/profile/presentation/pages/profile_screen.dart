@@ -2,11 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/enums/language_enum.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/feature/profile/presentation/widgets/language_card.dart' show LanguageCard;
 import 'package:grid_wars/feature/profile/presentation/widgets/profile_card.dart';
-import 'package:grid_wars/feature/profile/presentation/widgets/profile_header.dart';
 import 'package:grid_wars/feature/settings/presentation/blocs/app_setting_bloc/app_setting_bloc.dart';
 import 'package:grid_wars/feature/settings/presentation/widgets/app_screen.dart';
 
@@ -21,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScreen(
-      title: "Profile Screen",
+      title: LocaleKeys.profileScreen.tr(),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0),
         child: SingleChildScrollView(
@@ -66,7 +66,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           TextSpan(
                             children: [
                               WidgetSpan(child: Icon(Icons.translate, color: AppColors.white)),
-                              TextSpan(text: "Languages", style: context.textTheme.headlineMedium),
+                              WidgetSpan(child: SizedBox(width: 4)),
+                              TextSpan(text: LocaleKeys.language.tr(), style: context.textTheme.headlineMedium),
                             ],
                           ),
                         ),

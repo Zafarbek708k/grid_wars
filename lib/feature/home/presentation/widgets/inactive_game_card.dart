@@ -1,8 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-
 
 class InActiveGameCard extends StatelessWidget {
   const InActiveGameCard({super.key, required this.item});
@@ -31,14 +32,12 @@ class InActiveGameCard extends StatelessWidget {
       child: Stack(
         alignment: Alignment.center,
         children: [
-
           /// MAIN CONTENT
           Padding(
             padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-
                 /// GAME ICON
                 SvgPicture.asset(
                   item.icon,
@@ -64,7 +63,7 @@ class InActiveGameCard extends StatelessWidget {
 
                 /// COMING SOON
                 Text(
-                  "Coming Soon",
+                  LocaleKeys.comingSoon.tr(),
                   style: context.textTheme.bodySmall?.copyWith(color: Colors.white38, letterSpacing: 1.2),
                 ),
               ],
