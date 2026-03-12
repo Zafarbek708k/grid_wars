@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_remote_config/firebase_remote_config.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/constants/firebase_remote_config_keys.dart';
 import 'package:grid_wars/core/service/remote_config_service.dart';
 import 'package:grid_wars/feature/settings/data/models/app_version_model.dart';
@@ -22,6 +22,8 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
     on<AppConfigEvent>((event, emit) {});
     on<RemoteConfigUpdateEvent>(_updateEvent);
     on<InitializeConfigEvent>(_initialize);
+
+    add(InitializeConfigEvent());
   }
 
   FutureOr<void> setupRemoteConfig() async {
@@ -57,9 +59,7 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
 
     emit(
       state.copyWith(
-        appVersion: updatedValues["app_version"] != null
-            ? AppVersionModel.fromJson(updatedValues["app_version"])
-            : null,
+        appVersion: updatedValues["app_version"] != null ? AppVersionModel.fromJson(updatedValues["app_version"]) : null,
       ),
     );
 
@@ -76,11 +76,7 @@ class AppConfigBloc extends Bloc<AppConfigEvent, AppConfigState> {
     await RemoteConfigService.setupRemoteConfig();
     await RemoteConfigService.fetchRemoteConfig();
 
-    add(
-      RemoteConfigUpdateEvent(
-        updatedKeys: {...FirebaseRemoteConfigKeys.booleanKeys, ...FirebaseRemoteConfigKeys.jsonKeys},
-      ),
-    );
+    add(RemoteConfigUpdateEvent(updatedKeys: {...FirebaseRemoteConfigKeys.booleanKeys, ...FirebaseRemoteConfigKeys.jsonKeys}));
   }
 
   Map<String, dynamic>? _decodeJson(String jsonString) {

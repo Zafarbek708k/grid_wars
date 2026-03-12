@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
-import 'package:grid_wars/feature/game/presentation/pages/game_screen.dart';
+import 'package:grid_wars/feature/home/presentation/pages/game_screen.dart';
 import 'package:grid_wars/feature/home/presentation/pages/home_screen.dart';
 import 'package:grid_wars/feature/profile/presentation/pages/profile_screen.dart';
 

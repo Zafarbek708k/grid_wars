@@ -4,14 +4,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:vibration/vibration.dart';
+
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
 import 'package:grid_wars/feature/navigation/presentation/blocs/navigator_cubit.dart';
 import 'package:grid_wars/feature/navigation/presentation/presentation/home_tab_controller_provider.dart';
 import 'package:grid_wars/feature/navigation/presentation/presentation/nav_bar_item.dart';
 import 'package:grid_wars/feature/navigation/presentation/presentation/navigator.dart';
-import 'package:vibration/vibration.dart';
 
 class MainNavigation extends StatefulWidget {
   const MainNavigation({super.key});

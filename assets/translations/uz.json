@@ -34,5 +34,8 @@
   "time": "Vaqt",
   "home": "Asosiy",
   "profile": "Profil",
-  "games": "O‘yinlar"
+  "games": "O‘yinlar",
+  "play_again": "Qayta o‘ynash",
+  "reset_game": "O‘yinni qayta boshlash",
+  "back_to_home": "Bosh menyuga"
 }

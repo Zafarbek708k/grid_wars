@@ -1,11 +1,9 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
+
 import 'package:grid_wars/core/constants/app_colors.dart';
-import 'package:grid_wars/core/enums/pop_up_status.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/pages/x_and_o.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
+import 'package:grid_wars/core/router/app_router.dart';
+import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
 
 class Menu extends StatefulWidget {
   const Menu({super.key});
@@ -42,14 +40,14 @@ class _MenuState extends State<Menu> {
                     ),
 
                     ShaderMaskedButton(
-                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const XAndO())),
+                      onPressed: () => Navigator.of(context).pushNamed(AppRouter.xAndO),
                       txt: "X and O",
                       txtStyle: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan),
                     ),
                     ShaderMaskedButton(
                       isDisabled: true,
                       onPressed: () {},
-                      // onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (ctx) => const XAndO())),
+                      // onPressed: () => Navigator.of(context).pushNamed(AppRouter.xAndO),
                       txt: "Game 15",
                       shaderGradient: AppColors.disabledGradient,
                       txtStyle: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan),

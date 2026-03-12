@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+
 import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/pages/x_and_o.dart';
+import 'package:grid_wars/core/router/app_router.dart';
 import 'package:grid_wars/feature/home/presentation/widgets/inactive_game_card.dart';
 import 'package:grid_wars/feature/home/presentation/widgets/play_card.dart';
 import 'package:grid_wars/feature/settings/presentation/widgets/app_screen.dart';
@@ -30,21 +31,19 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(LocaleKeys.playNow.tr(), style: context.textTheme.bodyMedium),
             ),
             const SizedBox(height: 12),
-            ...List.generate(HomeScreenApps.values
-                .where((e) => e.isActive)
-                .length, (i) {
-              final item = HomeScreenApps.values[i];
-              if (!item.isActive) return SizedBox.shrink();
-              return PlayCard(
-                onTap: () {
-                  if (item.isTicTacToe) {
-                    Navigator.of(context, rootNavigator: true).push(MaterialPageRoute(builder: (_) => const XAndO()));
-                  }
-                },
-                item: item,
-              );
-            }),
-
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.xAndO);
+              },
+              item: HomeScreenApps.ticTacToe,
+            ),
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.memoryMatch);
+              },
+              item: HomeScreenApps.memoryMatch,
+            ),
+            
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),
@@ -55,9 +54,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              itemCount: HomeScreenApps.values
-                  .where((e) => !e.isActive)
-                  .length,
+              itemCount: HomeScreenApps.values.where((e) => !e.isActive).length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 mainAxisSpacing: 12,

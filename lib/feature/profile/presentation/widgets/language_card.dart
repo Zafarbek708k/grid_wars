@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/enums/language_enum.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
 
 class LanguageCard extends StatelessWidget {
   const LanguageCard({super.key, required this.language, required this.isSelected, required this.onTap});

@@ -34,5 +34,8 @@
   "time": "Time",
   "home": "Home",
   "profile": "Profile",
-  "games": "Games"
+  "games": "Games",
+  "play_again": "Play Again",
+  "reset_game": "Reset Game",
+  "back_to_home": "Back to Home"
 }

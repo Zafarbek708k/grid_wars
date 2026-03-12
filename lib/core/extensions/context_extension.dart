@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:grid_wars/core/enums/pop_up_status.dart';
 import 'package:grid_wars/core/theme/theme_extension.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
 import 'package:top_snackbar_flutter/top_snack_bar.dart';
 import 'package:vibration/vibration.dart';
 import 'package:flutter_svg/svg.dart';
@@ -53,6 +53,9 @@ extension ContextExtension on BuildContext {
         await Vibration.vibrate(duration: 200, amplitude: 64);
       }
     }
+
+    if (!context.mounted) return;
+
     AnimationController? localAnimationController;
     showTopSnackBar(
       Overlay.of(this),
@@ -73,10 +76,7 @@ extension ContextExtension on BuildContext {
                     message,
                     style:
                         messageStyle ??
-                        textTheme.bodyLarge?.copyWith(
-                          color: context.themeExtension.whiteToDark,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToDark, fontWeight: FontWeight.w500),
                   ),
                 ),
                 AnimatedButton(

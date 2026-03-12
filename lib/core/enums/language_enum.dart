@@ -1,7 +1,7 @@
 import 'dart:ui';
 
 enum LanguageEnum {
-  uzbek(name: "Uzbek", languageCode: "uz", countryCode: "UZ", locale: const Locale("uz", "UZ")),
+  uzbek(name: "Uzbek", languageCode: "uz", countryCode: "UZ", locale: Locale("uz", "UZ")),
   russian(name: "Russian", languageCode: "ru", countryCode: "RU", locale: Locale("ru", "RU")),
   english(name: "English", languageCode: "en", countryCode: "EN", locale: Locale("en", "EN"));
 

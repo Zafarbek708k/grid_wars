@@ -4,7 +4,7 @@ enum HomeScreenApps {
   ticTacToe(icon: AppIcons.ticTac, name: "Tic Tac Toe", rating: 5, isActive: true),
   fifteenPuzzle(icon: AppIcons.game, name: "15 Puzzle", rating: 4, isActive: false),
   chess(icon: AppIcons.chessRook, name: "Chess", rating: 5, isActive: false),
-  memoryMatch(icon: AppIcons.brain, name: "Memory Match", rating: 4, isActive: false),
+  memoryMatch(icon: AppIcons.brain, name: "Memory Match", rating: 4, isActive: true),
   sudoku(icon: AppIcons.sudoku, name: "Sudoku", rating: 3, isActive: false),
   math(icon: AppIcons.plusEqual, name: "Mental", rating: 5, isActive: false),
   nard(icon: AppIcons.dice5, name: "Nard", rating: 3, isActive: false),

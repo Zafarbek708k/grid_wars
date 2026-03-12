@@ -1,11 +1,13 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
-import 'package:grid_wars/feature/settings/presentation/pages/setting_screen.dart';
+import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/feature/game/x_and_o/presentation/blocs/x_o_bloc.dart';
 
 class XAndO extends StatefulWidget {
   const XAndO({super.key});
@@ -30,22 +32,12 @@ class _XAndOState extends State<XAndO> {
         automaticallyImplyLeading: true,
         title: Text(
           'Grid Wars',
-          style: context.textTheme.bodyLarge?.copyWith(
-            color: context.themeExtension.whiteToCyan,
-            fontWeight: FontWeight.w900,
-          ),
+          style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
         ),
         leading: AnimatedButton(
           child: Icon(Icons.arrow_back_ios, color: context.themeExtension.whiteToCyan),
           onTap: () => Navigator.of(context).pop(),
         ),
-        actions: [
-          AnimatedButton(
-            onTap: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => const SettingScreen())),
-            child: Icon(Icons.settings, color: context.themeExtension.whiteToCyan),
-          ),
-          const SizedBox(width: 12),
-        ],
       ),
       body: Container(
         decoration: const BoxDecoration(
@@ -107,11 +99,7 @@ class _XAndOState extends State<XAndO> {
                               width: 2,
                             ),
                             boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.4),
-                                offset: const Offset(3, 3),
-                                blurRadius: 6,
-                              ),
+                              BoxShadow(color: Colors.black.withValues(alpha: 0.4), offset: const Offset(3, 3), blurRadius: 6),
                               BoxShadow(
                                 color: AppColors.white.withValues(alpha: 0.05),
                                 offset: const Offset(-3, -3),
@@ -157,19 +145,17 @@ class _XAndOState extends State<XAndO> {
             gradient: LinearGradient(
               colors: [Colors.cyanAccent.withValues(alpha: 0.5), Colors.blueAccent.withValues(alpha: 0.5)],
             ),
-            boxShadow: [
-              BoxShadow(color: AppColors.black.withValues(alpha: 0.3), offset: const Offset(3, 3), blurRadius: 6),
-            ],
+            boxShadow: [BoxShadow(color: AppColors.black.withValues(alpha: 0.3), offset: const Offset(3, 3), blurRadius: 6)],
             border: Border.all(color: AppColors.white.withValues(alpha: 0.4), width: 1.2),
           ),
-          child: const Center(
+          child: Center(
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.refresh, color: AppColors.white),
-                SizedBox(width: 8),
+                const Icon(Icons.refresh, color: AppColors.white),
+                const SizedBox(width: 8),
                 Text(
-                  'Reset Game',
+                  LocaleKeys.resetGame.tr(),
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.white),
                 ),
               ],

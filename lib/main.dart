@@ -4,84 +4,21 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:grid_wars/core/service/storage_service.dart';
-import 'package:grid_wars/core/theme/dark.dart';
-import 'package:grid_wars/core/theme/light.dart';
-import 'package:grid_wars/feature/game/presentation/blocs/x_o_bloc.dart';
-import 'package:grid_wars/feature/init/pages/splash.dart';
-import 'package:grid_wars/feature/navigation/presentation/blocs/navigator_cubit.dart';
-import 'package:grid_wars/feature/settings/presentation/blocs/app_config_bloc/app_config_bloc.dart';
+import 'package:grid_wars/core/widgets/app_scope.dart';
+import 'package:grid_wars/core/widgets/grid_wars_game.dart';
+import 'package:grid_wars/firebase_options.dart';
 
-import 'feature/settings/presentation/blocs/app_setting_bloc/app_setting_bloc.dart';
-import 'firebase_options.dart';
+void main() {
+  runZonedGuarded(() async {
+    WidgetsFlutterBinding.ensureInitialized();
 
-void main() async {
-  runZonedGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
-      await EasyLocalization.ensureInitialized();
-      await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-      await StorageRepository.getInstance();
-      FirebaseAnalytics analytics = FirebaseAnalytics.instance;
+    await EasyLocalization.ensureInitialized();
+    await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+    await StorageRepository.getInstance();
+    FirebaseAnalytics analytics = FirebaseAnalytics.instance;
 
-      runApp(
-        EasyLocalization(
-          supportedLocales: const [Locale('en'), Locale('ru'), Locale('uz')],
-          path: 'assets/translations',
-          fallbackLocale: const Locale('en'),
-          saveLocale: true,
-
-          child: MyApp(analytics: analytics),
-        ),
-      );
-    },
-    (error, path) {
-      debugPrint("Error: $error\nPath: $path\n\n");
-    },
-  );
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key, required this.analytics});
-
-  final FirebaseAnalytics analytics;
-
-  @override
-  Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(create: (context) => XOBloc()),
-        BlocProvider(create: (context) => BottomNavigationBarCubit()),
-        BlocProvider(
-          create: (context) => AppSettingBloc()
-            ..add(const LoadThemeEvent())
-            ..add(LoadLanguageEvent()),
-        ),
-        BlocProvider(create: (context) => AppConfigBloc()..add(InitializeConfigEvent())),
-      ],
-      child: BlocBuilder<AppSettingBloc, AppSettingState>(
-        buildWhen: (o, n) {
-          final locale = n.locale != o.locale;
-          final theme = n.selectedTheme != o.selectedTheme;
-          return locale || theme;
-        },
-        builder: (context, state) {
-          return MaterialApp(
-            title: 'Grid Wars',
-            debugShowCheckedModeBanner: false,
-            darkTheme: Dark.theme(),
-            theme: Light.theme(),
-            navigatorObservers: [FirebaseAnalyticsObserver(analytics: analytics)],
-            locale: context.locale,
-            supportedLocales: context.supportedLocales,
-            localizationsDelegates: context.localizationDelegates,
-            // themeMode: state.selectedTheme,
-            themeMode: ThemeMode.dark,
-            home: const Splash(),
-          );
-        },
-      ),
-    );
-  }
+    runApp(GridWarsAppScope(child: GridWarsGame(analytics: analytics)));
+  }, (error, path) => debugPrint("Error: $error\nPath: $path\n\n"));
 }

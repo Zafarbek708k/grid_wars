@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
 import 'package:grid_wars/feature/home/presentation/widgets/rating_stars.dart';
 
 class PlayCard extends StatelessWidget {

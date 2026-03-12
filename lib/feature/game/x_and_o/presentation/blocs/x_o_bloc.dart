@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/enums/game_item_type_enum.dart';
 
 part 'x_o_event.dart';
-
 part 'x_o_state.dart';
 
 class XOBloc extends Bloc<XOEvent, XOState> {
