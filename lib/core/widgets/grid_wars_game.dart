@@ -45,7 +45,6 @@ class GridWarsGame extends StatelessWidget {
             locale: context.locale,
             supportedLocales: context.supportedLocales,
             localizationsDelegates: context.localizationDelegates,
-            // themeMode: state.selectedTheme,
             themeMode: ThemeMode.dark,
             home: const Splash(),
           );
