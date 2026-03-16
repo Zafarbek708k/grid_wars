@@ -7,7 +7,7 @@ import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
-import 'package:grid_wars/feature/game/x_and_o/presentation/blocs/x_o_bloc.dart';
+import 'package:grid_wars/feature/game/presentation/blocs/x_and_o_bloc/x_o_bloc.dart';
 
 class XAndO extends StatefulWidget {
   const XAndO({super.key});

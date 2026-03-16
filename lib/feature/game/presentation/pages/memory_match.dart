@@ -8,7 +8,7 @@ import 'package:grid_wars/core/constants/app_icons.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
-import 'package:grid_wars/feature/game/memory_match/presentation/blocs/memory_match_bloc.dart';
+import 'package:grid_wars/feature/game/presentation/blocs/memory_match_bloc/memory_match_bloc.dart';
 
 class MemoryMatch extends StatefulWidget {
   const MemoryMatch({super.key});

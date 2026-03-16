@@ -39,4 +39,7 @@ abstract class LocaleKeys {
   static const String playAgain = 'play_again';
   static const String resetGame = 'reset_game';
   static const String backToHome = 'back_to_home';
+  static const String result = 'result';
+  static const String yourAnswer = 'your_answer';
+  static const String correctAnswer = 'correct_answer';
 }

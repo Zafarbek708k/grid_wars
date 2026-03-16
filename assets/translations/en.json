@@ -37,5 +37,8 @@
   "games": "Games",
   "play_again": "Play Again",
   "reset_game": "Reset Game",
-  "back_to_home": "Back to Home"
+  "back_to_home": "Back to Home",
+  "your_answer": "Your answer",
+  "correct_answer": "Correct answer",
+  "result": "Result"
 }

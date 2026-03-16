@@ -37,5 +37,8 @@
   "games": "Игры",
   "play_again": "Играть снова",
   "reset_game": "Сбросить игру",
-  "back_to_home": "На главную"
+  "back_to_home": "На главную",
+  "your_answer": "Ваш ответ",
+  "correct_answer": "Правильный ответ",
+  "result": "Результат"
 }

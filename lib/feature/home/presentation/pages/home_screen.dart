@@ -43,7 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               item: HomeScreenApps.memoryMatch,
             ),
-            
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.mental);
+              },
+              item: HomeScreenApps.math,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),

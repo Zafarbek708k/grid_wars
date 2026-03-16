@@ -37,5 +37,8 @@
   "games": "O‘yinlar",
   "play_again": "Qayta o‘ynash",
   "reset_game": "O‘yinni qayta boshlash",
-  "back_to_home": "Bosh menyuga"
+  "back_to_home": "Bosh menyuga",
+  "your_answer": "Sizning javobingiz",
+  "correct_answer": "To‘g‘ri javob",
+  "result": "Natija"
 }
