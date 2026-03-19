@@ -7,7 +7,7 @@ class MentalState extends Equatable {
     this.questions = const [],
     this.currentQuestionIndex = -1,
     this.isGameOver = false,
-    this.rangeMaxNumber = 20,
+    this.rangeMaxNumber = 10,
     this.isResult = false,
   });
 

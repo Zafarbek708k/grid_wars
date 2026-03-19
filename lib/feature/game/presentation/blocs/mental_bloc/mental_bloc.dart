@@ -49,7 +49,7 @@ class MentalBloc extends Bloc<MentalEvent, MentalState> {
 
   void _selectAnswer(SelectAnswer$MentalEvent event, Emitter<MentalState> emit) {
     if (state.questions[state.currentQuestionIndex].answers[event.answerIndex].isCorrect) {
-      if ((state.currentQuestionIndex + 1) % 10 == 0) add(const UpdateQuestions$MentalEvent());
+      if ((state.currentQuestionIndex + 2) % 10 == 0) add(const UpdateQuestions$MentalEvent());
 
       emit(
         state.copyWith(
@@ -93,13 +93,58 @@ class MentalBloc extends Bloc<MentalEvent, MentalState> {
 
   // Helpers functions
 
-  MentalQuestion _generateMathQuestion([int start = 1, int max = 20]) {
+  MentalQuestion _generateMathQuestion([int start = 1, int max = 10]) {
     int numberFirst = _random.nextInt(max) + start;
     int numberSecond = _random.nextInt(max) + start;
-    int correct = numberFirst + numberSecond;
-    int number = _random.nextInt(3) + 1;
+    int numberForPosition = _random.nextInt(3) + 1;
+    int numberForType = _random.nextInt(3) + 1;
 
-    switch (number) {
+    switch (numberForType) {
+      case 1:
+        return _addition(
+          numberFirst: numberFirst,
+          numberSecond: numberSecond,
+          start: start,
+          max: max,
+          numberForPosition: numberForPosition,
+        );
+      case 2:
+        return _subtraction(
+          numberFirst: numberFirst,
+          numberSecond: numberSecond,
+          start: start,
+          max: max,
+          numberForPosition: numberForPosition,
+        );
+      case 3:
+        return _multiplication(
+          numberFirst: numberFirst,
+          numberSecond: numberSecond,
+          start: start,
+          max: max,
+          numberForPosition: numberForPosition,
+        );
+      default:
+        return _divition(
+          numberFirst: numberFirst,
+          numberSecond: numberSecond,
+          start: start,
+          max: max,
+          numberForPosition: numberForPosition,
+        );
+    }
+  }
+
+  MentalQuestion _addition({
+    required int numberFirst,
+    required int numberSecond,
+    required int start,
+    required int max,
+    required int numberForPosition,
+  }) {
+    int correct = numberFirst + numberSecond;
+
+    switch (numberForPosition) {
       case 1:
         List<int> options = _createOptions(numberFirst, max, start);
 
@@ -119,6 +164,115 @@ class MentalBloc extends Bloc<MentalEvent, MentalState> {
 
         return MentalQuestion(
           questionText: '$numberFirst + $numberSecond = ?',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == correct)).toList(),
+        );
+    }
+  }
+
+  MentalQuestion _subtraction({
+    required int numberFirst,
+    required int numberSecond,
+    required int start,
+    required int max,
+    required int numberForPosition,
+  }) {
+    int correct = numberFirst - numberSecond;
+
+    switch (numberForPosition) {
+      case 1:
+        List<int> options = _createOptions(numberFirst, max, start);
+
+        return MentalQuestion(
+          questionText: '? - $numberSecond = $correct',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == numberFirst)).toList(),
+        );
+      case 2:
+        List<int> options = _createOptions(numberSecond, max, start);
+
+        return MentalQuestion(
+          questionText: '$numberFirst - ? = $correct',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == numberSecond)).toList(),
+        );
+      default:
+        List<int> options = _createOptions(correct, max, start);
+
+        return MentalQuestion(
+          questionText: '$numberFirst - $numberSecond = ?',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == correct)).toList(),
+        );
+    }
+  }
+
+  MentalQuestion _multiplication({
+    required int numberFirst,
+    required int numberSecond,
+    required int start,
+    required int max,
+    required int numberForPosition,
+  }) {
+    int correct = numberFirst * numberSecond;
+
+    switch (numberForPosition) {
+      case 1:
+        List<int> options = _createOptions(numberFirst, max, start);
+
+        return MentalQuestion(
+          questionText: '? • $numberSecond = $correct',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == numberFirst)).toList(),
+        );
+      case 2:
+        List<int> options = _createOptions(numberSecond, max, start);
+
+        return MentalQuestion(
+          questionText: '$numberFirst • ? = $correct',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == numberSecond)).toList(),
+        );
+      default:
+        List<int> options = _createOptions(correct, max, start);
+
+        return MentalQuestion(
+          questionText: '$numberFirst • $numberSecond = ?',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == correct)).toList(),
+        );
+    }
+  }
+
+  MentalQuestion _divition({
+    required int numberFirst,
+    required int numberSecond,
+    required int start,
+    required int max,
+    required int numberForPosition,
+  }) {
+    double correct = numberFirst / numberSecond;
+
+    while (correct - correct.floor() != 0) {
+      numberFirst = _random.nextInt(max) + start;
+      numberSecond = _random.nextInt(max) + start;
+
+      correct = numberFirst / numberSecond;
+    }
+
+    switch (numberForPosition) {
+      case 1:
+        List<int> options = _createOptions(numberFirst, max, start);
+
+        return MentalQuestion(
+          questionText: '? : $numberSecond = ${correct.toInt()}',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == numberFirst)).toList(),
+        );
+      case 2:
+        List<int> options = _createOptions(numberSecond, max, start);
+
+        return MentalQuestion(
+          questionText: '$numberFirst : ? = ${correct.toInt()}',
+          answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == numberSecond)).toList(),
+        );
+      default:
+        List<int> options = _createOptions(correct.toInt(), max, start);
+
+        return MentalQuestion(
+          questionText: '$numberFirst : $numberSecond = ?',
           answers: options.map((element) => Answer(answerText: element.toString(), isCorrect: element == correct)).toList(),
         );
     }

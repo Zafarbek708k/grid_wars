@@ -1,18 +1,16 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
-import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
 import 'package:grid_wars/feature/game/domain/entities/answer.dart';
 import 'package:grid_wars/feature/game/domain/entities/mental_question.dart';
 import 'package:grid_wars/feature/game/presentation/blocs/mental_bloc/mental_bloc.dart';
 import 'package:grid_wars/feature/game/presentation/widgets/answers_grid.dart';
-import 'package:grid_wars/feature/game/presentation/widgets/math_text.dart';
+import 'package:grid_wars/feature/game/presentation/widgets/mental_result_dialog.dart';
 import 'package:grid_wars/feature/game/presentation/widgets/time_progress_bar.dart';
 
 class Mental extends StatefulWidget {
@@ -73,107 +71,28 @@ class _MentalState extends State<Mental> {
                   showDialog(
                     context: context,
                     barrierDismissible: false,
-                    builder: (_) => Dialog(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(16),
-                          gradient: const LinearGradient(
-                            colors: [Color(0xFF0F2027), Color(0xFF203A43), Color(0xFF2C5364)],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                        ),
-                        child: SingleChildScrollView(
-                          padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                LocaleKeys.result.tr(),
-                                style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
-                              ),
-
-                              const SizedBox(height: 20),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [Text(LocaleKeys.score.tr()), Text(state.correctAnswerCount.toString())],
-                              ),
-
-                              const SizedBox(height: 20),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    LocaleKeys.yourAnswer.tr(),
-                                    style: context.textTheme.headlineMedium?.copyWith(color: AppColors.red),
-                                  ),
-                                  MathText(
-                                    question: state.questions[state.currentQuestionIndex].questionText.replaceAll(
-                                      '?',
-                                      state.questions[state.currentQuestionIndex].answers
-                                          .firstWhere((e) => e.isSelected, orElse: () => Answer(answerText: '_'))
-                                          .answerText,
-                                    ),
-                                    highlight: state.questions[state.currentQuestionIndex].answers
-                                        .firstWhere((e) => e.isSelected, orElse: () => Answer(answerText: '_'))
-                                        .answerText,
-                                    color: AppColors.red,
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 10),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    LocaleKeys.correctAnswer.tr(),
-                                    style: context.textTheme.headlineMedium?.copyWith(color: AppColors.green),
-                                  ),
-                                  MathText(
-                                    question: state.questions[state.currentQuestionIndex].questionText.replaceAll(
-                                      '?',
-                                      state.questions[state.currentQuestionIndex].answers
-                                          .firstWhere((e) => e.isCorrect)
-                                          .answerText,
-                                    ),
-                                    highlight: state.questions[state.currentQuestionIndex].answers
-                                        .firstWhere((e) => e.isCorrect)
-                                        .answerText,
-                                    color: AppColors.green,
-                                  ),
-                                ],
-                              ),
-
-                              const SizedBox(height: 30),
-
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      context.read<MentalBloc>().add(const RestartGame$MentalEvent());
-                                    },
-                                    child: Text(LocaleKeys.playAgain.tr()),
-                                  ),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      Navigator.of(context).pop();
-                                      Navigator.of(context).pop();
-                                    },
-                                    child: Text(LocaleKeys.backToHome.tr()),
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
+                    builder: (_) => MentalResultDialog(
+                      score: state.correctAnswerCount,
+                      userAnswerText: state.questions[state.currentQuestionIndex].questionText.replaceAll(
+                        '?',
+                        state.questions[state.currentQuestionIndex].answers
+                            .firstWhere((e) => e.isSelected, orElse: () => Answer(answerText: '_'))
+                            .answerText,
                       ),
+                      userAnswerHighlightText: state.questions[state.currentQuestionIndex].answers
+                          .firstWhere((e) => e.isSelected, orElse: () => Answer(answerText: '_'))
+                          .answerText,
+                      correctAnswerText: state.questions[state.currentQuestionIndex].questionText.replaceAll(
+                        '?',
+                        state.questions[state.currentQuestionIndex].answers.firstWhere((e) => e.isCorrect).answerText,
+                      ),
+                      correctAnswerHighlightText: state.questions[state.currentQuestionIndex].answers
+                          .firstWhere((e) => e.isCorrect)
+                          .answerText,
+                      onRestart: () {
+                        context.read<MentalBloc>().add(const RestartGame$MentalEvent());
+                        Navigator.of(context).pop();
+                      },
                     ),
                   );
                 });

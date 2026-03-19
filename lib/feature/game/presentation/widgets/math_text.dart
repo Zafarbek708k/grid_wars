@@ -19,7 +19,7 @@ class MathText extends StatelessWidget {
         style: const TextStyle(color: Colors.white),
         children: [
           TextSpan(text: numbers[0], style: highlightStyle(numbers[0])),
-          const TextSpan(text: " + "),
+          TextSpan(text: " ${numbers[1]} "),
           TextSpan(text: numbers[2], style: highlightStyle(numbers[2])),
           const TextSpan(text: " = "),
           TextSpan(text: numbers[4], style: highlightStyle(numbers[4])),
