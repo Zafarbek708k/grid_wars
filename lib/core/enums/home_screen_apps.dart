@@ -9,7 +9,9 @@ enum HomeScreenApps {
   sudoku(icon: AppIcons.sudoku, name: "Sudoku", rating: 3, isActive: true),
   math(icon: AppIcons.plusEqual, name: "Mental", rating: 5, isActive: true),
   nard(icon: AppIcons.dice5, name: "Nard", rating: 3, isActive: true),
-  wordSearch(icon: AppIcons.language, name: "Word Search", rating: 4, isActive: false);
+  wordSearch(icon: AppIcons.language, name: "Word Search", rating: 4, isActive: true),
+  game2048(icon: AppIcons.game, name: "2048", rating: 4, isActive: true),
+  minesweeper(icon: AppIcons.game, name: "Minesweeper", rating: 4, isActive: true);
 
   const HomeScreenApps({required this.icon, required this.name, required this.rating, required this.isActive});
 
@@ -35,6 +37,10 @@ enum HomeScreenApps {
   bool get isNard => this == HomeScreenApps.nard;
 
   bool get isWordSearch => this == HomeScreenApps.wordSearch;
+
+  bool get isGame2048 => this == HomeScreenApps.game2048;
+
+  bool get isMinesweeper => this == HomeScreenApps.minesweeper;
 
   static HomeScreenApps fromString(String value) {
     return HomeScreenApps.values.firstWhere((element) => element.name == value, orElse: () => HomeScreenApps.chess);

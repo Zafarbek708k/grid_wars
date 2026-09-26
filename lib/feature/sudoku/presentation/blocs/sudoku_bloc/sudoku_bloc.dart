@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
 import 'package:grid_wars/feature/sudoku/domain/entities/sudoku_difficulty.dart';
 import 'package:grid_wars/feature/sudoku/domain/services/sudoku_generator.dart';
 
@@ -62,6 +63,7 @@ class SudokuBloc extends Bloc<SudokuEvent, SudokuState> {
     final bool solved = newBoard.indexed.every(
       (rowEntry) => rowEntry.$2.indexed.every((colEntry) => colEntry.$2 == state.solution[rowEntry.$1][colEntry.$1]),
     );
+    if (solved) unawaited(DailyChallengeService.notifyGameCompleted('sudoku'));
 
     emit(state.copyWith(board: newBoard, mistakes: mistakes, isSolved: solved));
   }

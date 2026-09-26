@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
-import 'package:grid_wars/feature/home/presentation/pages/game_screen.dart';
+import 'package:grid_wars/feature/daily_challenge/presentation/pages/daily_challenge_screen.dart';
 import 'package:grid_wars/feature/home/presentation/pages/home_screen.dart';
 import 'package:grid_wars/feature/profile/presentation/pages/profile_screen.dart';
 
@@ -62,7 +62,7 @@ class _TabNavigatorState extends State<TabNavigator> with AutomaticKeepAliveClie
       case NavBarEnum.home:
         return {TabNavigatorRoutes.root: (context) => HomeScreen()};
       case NavBarEnum.games:
-        return {TabNavigatorRoutes.root: (context) => GameScreen()};
+        return {TabNavigatorRoutes.root: (context) => const DailyChallengeScreen()};
       case NavBarEnum.profile:
         return {TabNavigatorRoutes.root: (context) => ProfileScreen()};
     }

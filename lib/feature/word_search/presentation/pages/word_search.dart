@@ -6,10 +6,10 @@ import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
-import 'package:grid_wars/feature/puzzle15/presentation/blocs/puzzle15_bloc/puzzle15_bloc.dart';
+import 'package:grid_wars/feature/word_search/presentation/blocs/word_search_bloc/word_search_bloc.dart';
 
-class Puzzle15 extends StatelessWidget {
-  const Puzzle15({super.key});
+class WordSearch extends StatelessWidget {
+  const WordSearch({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Puzzle15 extends StatelessWidget {
         backgroundColor: AppColors.white.withValues(alpha: 0.1),
         automaticallyImplyLeading: true,
         title: Text(
-          '15 Puzzle',
+          'Word Search',
           style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
         ),
         leading: AnimatedButton(
@@ -38,55 +38,41 @@ class Puzzle15 extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: BlocConsumer<Puzzle15Bloc, Puzzle15State>(
+          child: BlocConsumer<WordSearchBloc, WordSearchState>(
             listener: (context, state) {
               if (state.isSolved) {
-                final bloc = context.read<Puzzle15Bloc>();
+                final bloc = context.read<WordSearchBloc>();
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (_) => BlocProvider.value(
-                    value: bloc,
-                    child: _WinDialog(moves: state.moves, seconds: state.elapsedSeconds),
-                  ),
+                  builder: (_) => BlocProvider.value(value: bloc, child: const _WinDialog()),
                 );
               }
             },
             builder: (context, state) {
+              if (state.grid.isEmpty) return const SizedBox.shrink();
+
+              final int size = state.grid.length;
+
               return Column(
                 children: [
                   const SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [4, 5, 6].map((size) {
-                      final bool isSelected = state.size == size;
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 6),
-                        child: AnimatedButton(
-                          onTap: () => context.read<Puzzle15Bloc>().add(SelectSize$Puzzle15Event(size: size)),
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
-                            decoration: BoxDecoration(
-                              color: isSelected ? Colors.cyanAccent.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.05),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: isSelected ? Colors.cyanAccent : Colors.white24, width: 1.5),
-                            ),
-                            child: Text(
-                              '${size}x$size',
-                              style: TextStyle(
-                                color: isSelected ? Colors.cyanAccent : Colors.white70,
-                                fontWeight: FontWeight.w800,
-                              ),
-                            ),
-                          ),
+                  Wrap(
+                    alignment: WrapAlignment.center,
+                    spacing: 10,
+                    runSpacing: 6,
+                    children: state.words.map((word) {
+                      final bool found = state.foundWords.contains(word);
+                      return Text(
+                        word,
+                        style: TextStyle(
+                          color: found ? Colors.greenAccent : Colors.white70,
+                          fontWeight: FontWeight.w800,
+                          fontSize: 13,
+                          decoration: found ? TextDecoration.lineThrough : TextDecoration.none,
                         ),
                       );
                     }).toList(),
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'MOVES: ${state.moves}',
-                    style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.w700, letterSpacing: 1.0),
                   ),
                   const SizedBox(height: 12),
                   Expanded(
@@ -95,35 +81,63 @@ class Puzzle15 extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(horizontal: 16),
                         child: AspectRatio(
                           aspectRatio: 1,
-                          child: GridView.builder(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.tiles.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: state.size,
-                              crossAxisSpacing: 4,
-                              mainAxisSpacing: 4,
-                            ),
-                            itemBuilder: (context, index) {
-                              final int value = state.tiles[index];
-                              if (value == 0) return const SizedBox.shrink();
+                          child: LayoutBuilder(
+                            builder: (context, constraints) {
+                              final double cellSize = constraints.maxWidth / size;
 
-                              return AnimatedButton(
-                                onTap: () => context.read<Puzzle15Bloc>().add(TapTile$Puzzle15Event(index: index)),
+                              (int, int) cellAt(Offset localPosition) {
+                                final int row = (localPosition.dy / cellSize).floor().clamp(0, size - 1);
+                                final int col = (localPosition.dx / cellSize).floor().clamp(0, size - 1);
+                                return (row, col);
+                              }
+
+                              return GestureDetector(
+                                onPanStart: (details) {
+                                  final (row, col) = cellAt(details.localPosition);
+                                  context.read<WordSearchBloc>().add(StartSelection$WordSearchEvent(row: row, col: col));
+                                },
+                                onPanUpdate: (details) {
+                                  final (row, col) = cellAt(details.localPosition);
+                                  context.read<WordSearchBloc>().add(UpdateSelection$WordSearchEvent(row: row, col: col));
+                                },
+                                onPanEnd: (_) => context.read<WordSearchBloc>().add(const EndSelection$WordSearchEvent()),
                                 child: Container(
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFF2e3552),
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: context.themeExtension.whiteToCyan, width: 2),
+                                    color: const Color(0xFF0B1620),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(color: Colors.white24),
                                   ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '$value',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: state.size <= 4 ? 26 : (state.size == 5 ? 20 : 16),
-                                    ),
+                                  child: GridView.builder(
+                                    physics: const NeverScrollableScrollPhysics(),
+                                    itemCount: size * size,
+                                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: size),
+                                    itemBuilder: (context, index) {
+                                      final int row = index ~/ size;
+                                      final int col = index % size;
+                                      final bool isSelected = state.isSelected(row, col);
+                                      final bool isFound = state.isFound(row, col);
+
+                                      return Container(
+                                        margin: const EdgeInsets.all(1),
+                                        decoration: BoxDecoration(
+                                          color: isSelected
+                                              ? Colors.cyanAccent.withValues(alpha: 0.4)
+                                              : isFound
+                                              ? Colors.greenAccent.withValues(alpha: 0.25)
+                                              : Colors.transparent,
+                                          borderRadius: BorderRadius.circular(4),
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          state.grid[row][col],
+                                          style: TextStyle(
+                                            color: isFound ? Colors.greenAccent : Colors.white,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 13,
+                                          ),
+                                        ),
+                                      );
+                                    },
                                   ),
                                 ),
                               );
@@ -133,7 +147,11 @@ class Puzzle15 extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 80),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text('Drag across letters to find a word', style: TextStyle(color: Colors.white38, fontSize: 12)),
+                  ),
+                  const SizedBox(height: 70),
                 ],
               );
             },
@@ -142,7 +160,7 @@ class Puzzle15 extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: GestureDetector(
-        onTap: () => context.read<Puzzle15Bloc>().add(const ResetGame$Puzzle15Event()),
+        onTap: () => context.read<WordSearchBloc>().add(const NewGame$WordSearchEvent()),
         child: Container(
           height: 48,
           margin: EdgeInsetsGeometry.fromLTRB(16, 0, 16, context.padding.bottom + 12),
@@ -172,17 +190,14 @@ class Puzzle15 extends StatelessWidget {
 }
 
 class _WinDialog extends StatelessWidget {
-  final int moves;
-  final int seconds;
-
-  const _WinDialog({required this.moves, required this.seconds});
+  const _WinDialog();
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: SizedBox(
-        height: 220,
+        height: 180,
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -196,8 +211,6 @@ class _WinDialog extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(LocaleKeys.youWin.tr(), style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              Text('$moves moves • ${seconds}s', style: const TextStyle(color: Colors.white70, fontSize: 14)),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -205,7 +218,7 @@ class _WinDialog extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      context.read<Puzzle15Bloc>().add(const ResetGame$Puzzle15Event());
+                      context.read<WordSearchBloc>().add(const NewGame$WordSearchEvent());
                     },
                     child: Text(LocaleKeys.playAgain.tr()),
                   ),

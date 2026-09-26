@@ -42,10 +42,11 @@ class Sudoku extends StatelessWidget {
           child: BlocConsumer<SudokuBloc, SudokuState>(
             listener: (context, state) {
               if (state.isSolved) {
+                final bloc = context.read<SudokuBloc>();
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (_) => _WinDialog(mistakes: state.mistakes),
+                  builder: (_) => BlocProvider.value(value: bloc, child: _WinDialog(mistakes: state.mistakes)),
                 );
               }
             },

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
-import 'package:grid_wars/feature/platformer/config/game_config.dart';
 import 'package:grid_wars/feature/platformer/presentation/pages/platformer_game_page.dart';
 
 class PlatformerHomeScreen extends StatelessWidget {

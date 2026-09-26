@@ -4,6 +4,7 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
 import 'package:grid_wars/feature/mental/domain/entities/answer.dart';
 import 'package:grid_wars/feature/mental/domain/entities/mental_question.dart';
 
@@ -76,6 +77,10 @@ class MentalBloc extends Bloc<MentalEvent, MentalState> {
   }
 
   Future<void> _gameOver(GameOver$MentalEvent event, Emitter<MentalState> emit) async {
+    if (state.correctAnswerCount >= 10) {
+      unawaited(DailyChallengeService.notifyGameCompleted('math'));
+    }
+
     emit(state.copyWith(isGameOver: true));
 
     _stopTimer();

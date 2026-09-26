@@ -6,10 +6,10 @@ import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
-import 'package:grid_wars/feature/puzzle15/presentation/blocs/puzzle15_bloc/puzzle15_bloc.dart';
+import 'package:grid_wars/feature/minesweeper/presentation/blocs/minesweeper_bloc/minesweeper_bloc.dart';
 
-class Puzzle15 extends StatelessWidget {
-  const Puzzle15({super.key});
+class Minesweeper extends StatelessWidget {
+  const Minesweeper({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +21,7 @@ class Puzzle15 extends StatelessWidget {
         backgroundColor: AppColors.white.withValues(alpha: 0.1),
         automaticallyImplyLeading: true,
         title: Text(
-          '15 Puzzle',
+          'Minesweeper',
           style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
         ),
         leading: AnimatedButton(
@@ -38,44 +38,51 @@ class Puzzle15 extends StatelessWidget {
           ),
         ),
         child: SafeArea(
-          child: BlocConsumer<Puzzle15Bloc, Puzzle15State>(
+          child: BlocConsumer<MinesweeperBloc, MinesweeperState>(
             listener: (context, state) {
-              if (state.isSolved) {
-                final bloc = context.read<Puzzle15Bloc>();
+              if (state.isWin) {
+                final bloc = context.read<MinesweeperBloc>();
                 showDialog(
                   context: context,
                   barrierDismissible: false,
-                  builder: (_) => BlocProvider.value(
-                    value: bloc,
-                    child: _WinDialog(moves: state.moves, seconds: state.elapsedSeconds),
-                  ),
+                  builder: (_) => BlocProvider.value(value: bloc, child: const _ResultDialog(isWin: true)),
+                );
+              } else if (state.isGameOver) {
+                final bloc = context.read<MinesweeperBloc>();
+                showDialog(
+                  context: context,
+                  barrierDismissible: false,
+                  builder: (_) => BlocProvider.value(value: bloc, child: const _ResultDialog(isWin: false)),
                 );
               }
             },
             builder: (context, state) {
+              if (state.board.isEmpty) return const SizedBox.shrink();
+
               return Column(
                 children: [
                   const SizedBox(height: 8),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [4, 5, 6].map((size) {
-                      final bool isSelected = state.size == size;
+                    children: MinesweeperDifficulty.values.map((difficulty) {
+                      final bool isSelected = state.difficulty == difficulty;
                       return Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 6),
                         child: AnimatedButton(
-                          onTap: () => context.read<Puzzle15Bloc>().add(SelectSize$Puzzle15Event(size: size)),
+                          onTap: () => context.read<MinesweeperBloc>().add(SelectDifficulty$MinesweeperEvent(difficulty: difficulty)),
                           child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
                             decoration: BoxDecoration(
                               color: isSelected ? Colors.cyanAccent.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.05),
                               borderRadius: BorderRadius.circular(12),
                               border: Border.all(color: isSelected ? Colors.cyanAccent : Colors.white24, width: 1.5),
                             ),
                             child: Text(
-                              '${size}x$size',
+                              difficulty.label,
                               style: TextStyle(
                                 color: isSelected ? Colors.cyanAccent : Colors.white70,
                                 fontWeight: FontWeight.w800,
+                                fontSize: 12,
                               ),
                             ),
                           ),
@@ -83,12 +90,19 @@ class Puzzle15 extends StatelessWidget {
                       );
                     }).toList(),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    'MOVES: ${state.moves}',
-                    style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.w700, letterSpacing: 1.0),
+                  const SizedBox(height: 8),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.flag, color: Colors.redAccent, size: 16),
+                      const SizedBox(width: 6),
+                      Text(
+                        '${state.difficulty.mineCount - state.flaggedCount}',
+                        style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.w700),
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                   Expanded(
                     child: Center(
                       child: Padding(
@@ -98,34 +112,15 @@ class Puzzle15 extends StatelessWidget {
                           child: GridView.builder(
                             shrinkWrap: true,
                             physics: const NeverScrollableScrollPhysics(),
-                            itemCount: state.tiles.length,
-                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: state.size,
-                              crossAxisSpacing: 4,
-                              mainAxisSpacing: 4,
-                            ),
+                            itemCount: state.difficulty.rows * state.difficulty.cols,
+                            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: state.difficulty.cols, crossAxisSpacing: 1, mainAxisSpacing: 1),
                             itemBuilder: (context, index) {
-                              final int value = state.tiles[index];
-                              if (value == 0) return const SizedBox.shrink();
-
-                              return AnimatedButton(
-                                onTap: () => context.read<Puzzle15Bloc>().add(TapTile$Puzzle15Event(index: index)),
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: const Color(0xFF2e3552),
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(color: context.themeExtension.whiteToCyan, width: 2),
-                                  ),
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    '$value',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.w800,
-                                      fontSize: state.size <= 4 ? 26 : (state.size == 5 ? 20 : 16),
-                                    ),
-                                  ),
-                                ),
+                              final int row = index ~/ state.difficulty.cols;
+                              final int col = index % state.difficulty.cols;
+                              return _CellWidget(
+                                cell: state.board[row][col],
+                                onTap: () => context.read<MinesweeperBloc>().add(RevealCell$MinesweeperEvent(row: row, col: col)),
+                                onLongPress: () => context.read<MinesweeperBloc>().add(ToggleFlag$MinesweeperEvent(row: row, col: col)),
                               );
                             },
                           ),
@@ -133,7 +128,11 @@ class Puzzle15 extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 80),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 8),
+                    child: Text('Tap to reveal • Long-press to flag', style: TextStyle(color: Colors.white38, fontSize: 12)),
+                  ),
+                  const SizedBox(height: 70),
                 ],
               );
             },
@@ -142,7 +141,7 @@ class Puzzle15 extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: GestureDetector(
-        onTap: () => context.read<Puzzle15Bloc>().add(const ResetGame$Puzzle15Event()),
+        onTap: () => context.read<MinesweeperBloc>().add(const ResetGame$MinesweeperEvent()),
         child: Container(
           height: 48,
           margin: EdgeInsetsGeometry.fromLTRB(16, 0, 16, context.padding.bottom + 12),
@@ -171,18 +170,68 @@ class Puzzle15 extends StatelessWidget {
   }
 }
 
-class _WinDialog extends StatelessWidget {
-  final int moves;
-  final int seconds;
+class _CellWidget extends StatelessWidget {
+  final MineCell cell;
+  final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
-  const _WinDialog({required this.moves, required this.seconds});
+  const _CellWidget({required this.cell, required this.onTap, required this.onLongPress});
+
+  static const List<Color> _numberColors = [
+    Colors.transparent,
+    Colors.lightBlueAccent,
+    Colors.lightGreenAccent,
+    Colors.redAccent,
+    Colors.purpleAccent,
+    Colors.orangeAccent,
+    Colors.cyanAccent,
+    Colors.white,
+    Colors.white54,
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      onLongPress: onLongPress,
+      child: Container(
+        decoration: BoxDecoration(
+          color: cell.isRevealed ? Colors.white.withValues(alpha: 0.06) : Colors.white.withValues(alpha: 0.14),
+          borderRadius: BorderRadius.circular(3),
+        ),
+        alignment: Alignment.center,
+        child: cell.isFlagged
+            ? const Icon(Icons.flag, color: Colors.redAccent, size: 14)
+            : !cell.isRevealed
+            ? null
+            : cell.isMine
+            ? const Icon(Icons.brightness_1, color: Colors.black87, size: 12)
+            : cell.adjacentMines == 0
+            ? null
+            : Text(
+                '${cell.adjacentMines}',
+                style: TextStyle(
+                  color: _numberColors[cell.adjacentMines.clamp(0, 8)],
+                  fontWeight: FontWeight.w900,
+                  fontSize: 12,
+                ),
+              ),
+      ),
+    );
+  }
+}
+
+class _ResultDialog extends StatelessWidget {
+  final bool isWin;
+
+  const _ResultDialog({required this.isWin});
 
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       child: SizedBox(
-        height: 220,
+        height: 190,
         child: DecoratedBox(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(16),
@@ -195,9 +244,10 @@ class _WinDialog extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text(LocaleKeys.youWin.tr(), style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 8),
-              Text('$moves moves • ${seconds}s', style: const TextStyle(color: Colors.white70, fontSize: 14)),
+              Text(
+                isWin ? LocaleKeys.youWin.tr() : 'BOOM!',
+                style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+              ),
               const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -205,7 +255,7 @@ class _WinDialog extends StatelessWidget {
                   ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).pop();
-                      context.read<Puzzle15Bloc>().add(const ResetGame$Puzzle15Event());
+                      context.read<MinesweeperBloc>().add(const ResetGame$MinesweeperEvent());
                     },
                     child: Text(LocaleKeys.playAgain.tr()),
                   ),

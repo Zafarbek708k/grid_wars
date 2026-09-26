@@ -1,6 +1,5 @@
 import 'dart:math' as math;
 import 'package:flutter/material.dart';
-import 'package:grid_wars/feature/platformer/config/game_config.dart';
 import 'package:grid_wars/feature/platformer/domain/entities/player_model.dart';
 
 /// Renders the Mario character using pure Flutter styling, Material Icons,
