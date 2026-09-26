@@ -1,13 +1,14 @@
 import 'package:grid_wars/core/constants/app_icons.dart';
 
 enum HomeScreenApps {
+  mario2D(icon: AppIcons.game, name: "Super Platformer", rating: 5, isActive: true),
   ticTacToe(icon: AppIcons.ticTac, name: "Tic Tac Toe", rating: 5, isActive: true),
-  fifteenPuzzle(icon: AppIcons.game, name: "15 Puzzle", rating: 4, isActive: false),
+  fifteenPuzzle(icon: AppIcons.game, name: "15 Puzzle", rating: 4, isActive: true),
   chess(icon: AppIcons.chessRook, name: "Chess", rating: 5, isActive: false),
   memoryMatch(icon: AppIcons.brain, name: "Memory Match", rating: 4, isActive: true),
-  sudoku(icon: AppIcons.sudoku, name: "Sudoku", rating: 3, isActive: false),
+  sudoku(icon: AppIcons.sudoku, name: "Sudoku", rating: 3, isActive: true),
   math(icon: AppIcons.plusEqual, name: "Mental", rating: 5, isActive: true),
-  nard(icon: AppIcons.dice5, name: "Nard", rating: 3, isActive: false),
+  nard(icon: AppIcons.dice5, name: "Nard", rating: 3, isActive: true),
   wordSearch(icon: AppIcons.language, name: "Word Search", rating: 4, isActive: false);
 
   const HomeScreenApps({required this.icon, required this.name, required this.rating, required this.isActive});
@@ -16,6 +17,8 @@ enum HomeScreenApps {
   final String name;
   final int rating;
   final bool isActive;
+
+  bool get isMario2D => this == HomeScreenApps.mario2D;
 
   bool get isTicTacToe => this == HomeScreenApps.ticTacToe;
 

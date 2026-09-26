@@ -1,5 +1,5 @@
 {
-  "app_name": "Grid Wars",
+  "app_name": "Game Hub",
   "play": "Play",
   "coming_soon": "Coming Soon",
   "rating": "Rating",
@@ -40,5 +40,8 @@
   "back_to_home": "Back to Home",
   "your_answer": "Your answer",
   "correct_answer": "Correct answer",
-  "result": "Result"
+  "result": "Result",
+  "share_app": "Share App",
+  "share_desc": "Share Game Hub with your friends on Google Play",
+  "link_copied": "Link copied to clipboard!"
 }

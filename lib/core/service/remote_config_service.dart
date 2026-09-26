@@ -14,8 +14,8 @@ class RemoteConfigService {
     await remoteConfig.setDefaults({
       "app_version": """
       {
-      "android":{"last_version":"1.0.0","message":"Some new Features added","min_required_version":"1.0.0","title":"Grid Wars","update_type":"major"},
-      "ios":{"last_version":"1.0.0","message":"Some new Features added","min_required_version":"1.0.0","title":"Grid Wars","update_type":"major"}
+      "android":{"last_version":"1.0.0","message":"Some new Features added","min_required_version":"1.0.0","title":"Game Hub","update_type":"major"},
+      "ios":{"last_version":"1.0.0","message":"Some new Features added","min_required_version":"1.0.0","title":"Game Hub","update_type":"major"}
       }
       """,
     });

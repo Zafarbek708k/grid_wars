@@ -1,6 +1,6 @@
-# grid_wars
+# Game Hub
 
-A new Flutter game project.
+A modern multi-game Flutter arcade platform featuring classic and casual games.
 
 ## Getting Started
 

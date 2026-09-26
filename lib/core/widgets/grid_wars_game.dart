@@ -36,7 +36,7 @@ class GridWarsGame extends StatelessWidget {
         },
         builder: (context, state) {
           return MaterialApp(
-            title: 'Grid Wars',
+            title: 'Game Hub',
             debugShowCheckedModeBanner: false,
             onGenerateRoute: AppRouter.onGenerateRoute,
             darkTheme: Dark.theme(),

@@ -1,5 +1,5 @@
 {
-  "app_name": "Grid Wars",
+  "app_name": "Game Hub",
   "play": "O‘ynash",
   "coming_soon": "Tez kunda",
   "rating": "Baholash",
@@ -40,5 +40,8 @@
   "back_to_home": "Bosh menyuga",
   "your_answer": "Sizning javobingiz",
   "correct_answer": "To‘g‘ri javob",
-  "result": "Natija"
+  "result": "Natija",
+  "share_app": "Ilovani ulashish",
+  "share_desc": "Game Hub ilovasini Google Play orqali do‘stlaringizga ulashing",
+  "link_copied": "Havola nusxalandi!"
 }
