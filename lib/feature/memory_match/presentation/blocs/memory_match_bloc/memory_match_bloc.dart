@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 
 import 'package:grid_wars/core/constants/app_images.dart';
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 import 'package:grid_wars/feature/memory_match/domain/entities/memory_card.dart';
 
 part 'memory_match_event.dart';
@@ -52,7 +53,10 @@ class MemoryMatchBloc extends Bloc<MemoryMatchEvent, MemoryMatchState> {
     }
 
     final win = state.memoryCards.every((card) => card.isSelected);
-    if (win) unawaited(DailyChallengeService.notifyGameCompleted('memoryMatch'));
+    if (win) {
+      unawaited(DailyChallengeService.notifyGameCompleted('memoryMatch'));
+      unawaited(GameStatsService.recordCompletion('memoryMatch'));
+    }
     emit(state.copyWith(isWin: win));
   }
 

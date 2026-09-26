@@ -4,6 +4,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/enums/game_item_type_enum.dart';
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 
 part 'x_o_event.dart';
 part 'x_o_state.dart';
@@ -24,6 +25,7 @@ class XOBloc extends Bloc<XOEvent, XOState> {
     final winResult = _checkWinner(newBoard);
     if (winResult != null) {
       unawaited(DailyChallengeService.notifyGameCompleted('ticTacToe'));
+      unawaited(GameStatsService.recordCompletion('ticTacToe'));
       emit(
         state.copyWith(board: newBoard, winner: winResult['winner'], isGameOver: true, winningLine: winResult['line']),
       );

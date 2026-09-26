@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 import 'package:grid_wars/feature/word_search/domain/services/word_search_generator.dart';
 
 part 'word_search_event.dart';
@@ -82,7 +83,10 @@ class WordSearchBloc extends Bloc<WordSearchEvent, WordSearchState> {
     final Set<String> newFoundWords = {...state.foundWords, matched};
     final Set<(int, int)> newFoundCells = {...state.foundCells, ...state.selection};
     final bool solved = newFoundWords.length == state.words.length;
-    if (solved) unawaited(DailyChallengeService.notifyGameCompleted('wordSearch'));
+    if (solved) {
+      unawaited(DailyChallengeService.notifyGameCompleted('wordSearch'));
+      unawaited(GameStatsService.recordCompletion('wordSearch'));
+    }
 
     emit(state.copyWith(foundWords: newFoundWords, foundCells: newFoundCells, selection: [], isSolved: solved));
   }

@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 
 part 'puzzle15_event.dart';
 part 'puzzle15_state.dart';
@@ -54,7 +55,10 @@ class Puzzle15Bloc extends Bloc<Puzzle15Event, Puzzle15State> {
 
     final bool solved = _isSolved(newTiles);
     final int elapsed = solved && _startedAt != null ? DateTime.now().difference(_startedAt!).inSeconds : state.elapsedSeconds;
-    if (solved) unawaited(DailyChallengeService.notifyGameCompleted('fifteenPuzzle'));
+    if (solved) {
+      unawaited(DailyChallengeService.notifyGameCompleted('fifteenPuzzle'));
+      unawaited(GameStatsService.recordCompletion('fifteenPuzzle', value: state.moves + 1, lowerIsBetter: true));
+    }
 
     emit(state.copyWith(tiles: newTiles, moves: state.moves + 1, isSolved: solved, elapsedSeconds: elapsed));
   }

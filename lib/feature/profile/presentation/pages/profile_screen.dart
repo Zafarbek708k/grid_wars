@@ -7,8 +7,12 @@ import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/enums/language_enum.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/feature/navigation/presentation/blocs/navigator_cubit.dart';
+import 'package:grid_wars/feature/profile/presentation/widgets/daily_challenge_summary_card.dart';
+import 'package:grid_wars/feature/profile/presentation/widgets/game_history_card.dart';
 import 'package:grid_wars/feature/profile/presentation/widgets/language_card.dart' show LanguageCard;
 import 'package:grid_wars/feature/profile/presentation/widgets/profile_card.dart';
+import 'package:grid_wars/feature/profile/presentation/widgets/profile_header.dart';
 import 'package:grid_wars/feature/settings/presentation/blocs/app_setting_bloc/app_setting_bloc.dart';
 import 'package:grid_wars/feature/settings/presentation/widgets/app_screen.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -31,32 +35,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: Column(
             children: [
               const SizedBox(height: 20),
-              // ProfileHeader(),
-              // ProfileCard(
-              //   child: Column(
-              //     mainAxisSize: MainAxisSize.min,
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text("Best Players", style: context.textTheme.headlineMedium),
-              //       Wrap(
-              //         children: [
-              //           ///
-              //         ],
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              // ProfileCard(
-              //   child: Column(
-              //     spacing: 4,
-              //     mainAxisSize: MainAxisSize.min,
-              //     crossAxisAlignment: CrossAxisAlignment.start,
-              //     children: [
-              //       Text("Best Scores", style: context.textTheme.headlineMedium),
-              //       ...List.generate(defaultScores.length, (i) => ScoreCard(score: defaultScores[i])),
-              //     ],
-              //   ),
-              // ),
+              const ProfileHeader(),
+              // Re-read on every bottom-nav change so returning to this tab
+              // after playing a game shows fresh stats.
+              // Not const: BlocBuilder's rebuilds must produce a genuinely
+              // new Column each time, otherwise Flutter sees the identical
+              // const instance and skips rebuilding these cards entirely —
+              // which is exactly why stats used to look frozen/stale.
+              BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
+                builder: (context, _) => Column(
+                  children: [
+                    DailyChallengeSummaryCard(),
+                    GameHistoryCard(),
+                  ],
+                ),
+              ),
               ProfileCard(
                 child: BlocSelector<AppSettingBloc, AppSettingState, LanguageEnum>(
                   selector: (state) => state.languageEnum,
@@ -189,51 +182,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 120),
             ],
           ),
         ),
-      ),
-    );
-  }
-}
-
-List<ScoresEntity> defaultScores = [
-  ScoresEntity(gameName: "Tic Tac Toe", score: 100),
-  ScoresEntity(gameName: "Puzzle 15", score: 200),
-  ScoresEntity(gameName: "Memory Match", score: 150),
-];
-
-class ScoresEntity {
-  final String gameName;
-  final int score;
-
-  ScoresEntity({required this.gameName, required this.score});
-}
-
-class BestPlayerEntity {
-  final String name;
-  final int score;
-
-  BestPlayerEntity({required this.name, required this.score});
-}
-
-class ScoreCard extends StatelessWidget {
-  const ScoreCard({super.key, required this.score});
-
-  final ScoresEntity score;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(color: AppColors.white.withValues(alpha: 0.2), borderRadius: BorderRadius.circular(12)),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(score.gameName, style: context.textTheme.bodyMedium),
-          Text(score.score.toString(), style: context.textTheme.bodyMedium),
-        ],
       ),
     );
   }

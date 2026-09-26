@@ -4,6 +4,8 @@ import 'dart:math';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
+
 part 'nard_event.dart';
 part 'nard_state.dart';
 
@@ -22,6 +24,7 @@ class NardBloc extends Bloc<NardEvent, NardState> {
     final int dice1 = _random.nextInt(6) + 1;
     final int dice2 = _random.nextInt(6) + 1;
     final int total = dice1 + dice2;
+    unawaited(GameStatsService.recordCompletion('nard'));
 
     emit(
       state.copyWith(

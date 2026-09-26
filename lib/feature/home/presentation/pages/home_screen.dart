@@ -20,6 +20,19 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  static final List<(HomeScreenApps item, String route)> _activeGames = [
+    (HomeScreenApps.mario2D, AppRouter.platformer),
+    (HomeScreenApps.ticTacToe, AppRouter.xAndO),
+    (HomeScreenApps.game2048, AppRouter.game2048),
+    (HomeScreenApps.memoryMatch, AppRouter.memoryMatch),
+    (HomeScreenApps.math, AppRouter.mental),
+    (HomeScreenApps.fifteenPuzzle, AppRouter.puzzle15),
+    (HomeScreenApps.sudoku, AppRouter.sudoku),
+    (HomeScreenApps.nard, AppRouter.nard),
+    (HomeScreenApps.wordSearch, AppRouter.wordSearch),
+    (HomeScreenApps.minesweeper, AppRouter.minesweeper),
+  ];
+
   @override
   Widget build(BuildContext context) {
     return AppScreen(
@@ -32,9 +45,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: BlocBuilder<BottomNavigationBarCubit, BottomNavigationBarState>(
-                builder: (context, _) => _StreakTeaser(
-                  onTap: () => context.read<BottomNavigationBarCubit>().changeIndex(1),
-                ),
+                builder: (context, _) => _StreakTeaser(onTap: () => context.read<BottomNavigationBarCubit>().changeIndex(1)),
               ),
             ),
             const SizedBox(height: 12),
@@ -43,66 +54,23 @@ class _HomeScreenState extends State<HomeScreen> {
               child: Text(LocaleKeys.playNow.tr(), style: context.textTheme.bodyMedium),
             ),
             const SizedBox(height: 12),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.platformer);
+            GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              padding: const EdgeInsets.symmetric(horizontal: 12.0),
+              itemCount: _activeGames.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                mainAxisSpacing: 12,
+                crossAxisSpacing: 12,
+                childAspectRatio: 1,
+              ),
+              itemBuilder: (context, index) {
+                final (item, route) = _activeGames[index];
+                return PlayCard(onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(route), item: item);
               },
-              item: HomeScreenApps.mario2D,
             ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.xAndO);
-              },
-              item: HomeScreenApps.ticTacToe,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.memoryMatch);
-              },
-              item: HomeScreenApps.memoryMatch,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.mental);
-              },
-              item: HomeScreenApps.math,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.puzzle15);
-              },
-              item: HomeScreenApps.fifteenPuzzle,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.sudoku);
-              },
-              item: HomeScreenApps.sudoku,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.nard);
-              },
-              item: HomeScreenApps.nard,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.wordSearch);
-              },
-              item: HomeScreenApps.wordSearch,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.game2048);
-              },
-              item: HomeScreenApps.game2048,
-            ),
-            PlayCard(
-              onTap: () {
-                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.minesweeper);
-              },
-              item: HomeScreenApps.minesweeper,
-            ),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),
@@ -165,7 +133,10 @@ class _StreakTeaser extends StatelessWidget {
                 style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700, fontSize: 13),
               ),
             ),
-            if (completedToday) const Icon(Icons.check_circle, color: Colors.greenAccent, size: 18) else const Icon(Icons.chevron_right, color: Colors.white54),
+            if (completedToday)
+              const Icon(Icons.check_circle, color: Colors.greenAccent, size: 18)
+            else
+              const Icon(Icons.chevron_right, color: Colors.white54),
           ],
         ),
       ),

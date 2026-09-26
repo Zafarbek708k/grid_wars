@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 import 'package:grid_wars/feature/platformer/config/game_config.dart';
 import 'package:grid_wars/feature/platformer/data/levels/levels.dart';
 import 'package:grid_wars/feature/platformer/domain/entities/level_model.dart';
@@ -335,6 +336,7 @@ class GameController extends ChangeNotifier {
       // Add level clear score bonus
       player.score += 1000 + (_timeRemaining * GameConfig.scoreTimeBonusMultiplier);
       unawaited(DailyChallengeService.notifyGameCompleted('mario2D'));
+      unawaited(GameStatsService.recordCompletion('mario2D', value: player.score));
     }
   }
 

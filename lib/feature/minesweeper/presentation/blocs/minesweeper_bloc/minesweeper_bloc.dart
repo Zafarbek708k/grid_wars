@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 import 'package:grid_wars/feature/minesweeper/domain/entities/mine_cell.dart';
 import 'package:grid_wars/feature/minesweeper/domain/entities/minesweeper_difficulty.dart';
 import 'package:grid_wars/feature/minesweeper/domain/services/minesweeper_engine.dart';
@@ -51,7 +52,13 @@ class MinesweeperBloc extends Bloc<MinesweeperEvent, MinesweeperState> {
     final cell = state.board[event.row][event.col];
     if (cell.isRevealed || cell.isFlagged) return null;
 
-    final board = state.board;
+    // A fresh deep copy so this emission's board is a genuinely different
+    // object from the previous state's — Bloc/Equatable skip an emit whose
+    // state compares equal to the current one, and mutating the same
+    // MineCell instances in place (as MinesweeperEngine does) would make
+    // every reveal after the first look identical to Equatable, silently
+    // dropping the UI update even though the board did change underneath.
+    final board = _copyBoard(state.board);
     bool firstClickDone = state.firstClickDone;
 
     if (!firstClickDone) {
@@ -67,7 +74,10 @@ class MinesweeperBloc extends Bloc<MinesweeperEvent, MinesweeperState> {
 
     MinesweeperEngine.revealCell(board, event.row, event.col);
     final bool won = MinesweeperEngine.isWin(board);
-    if (won) unawaited(DailyChallengeService.notifyGameCompleted('minesweeper'));
+    if (won) {
+      unawaited(DailyChallengeService.notifyGameCompleted('minesweeper'));
+      unawaited(GameStatsService.recordCompletion('minesweeper'));
+    }
 
     emit(state.copyWith(board: board, firstClickDone: firstClickDone, isWin: won));
   }
@@ -78,7 +88,25 @@ class MinesweeperBloc extends Bloc<MinesweeperEvent, MinesweeperState> {
     final cell = state.board[event.row][event.col];
     if (cell.isRevealed) return null;
 
-    cell.isFlagged = !cell.isFlagged;
-    emit(state.copyWith(board: state.board));
+    final board = _copyBoard(state.board);
+    board[event.row][event.col].isFlagged = !board[event.row][event.col].isFlagged;
+    emit(state.copyWith(board: board));
+  }
+
+  List<List<MineCell>> _copyBoard(List<List<MineCell>> board) {
+    return board
+        .map(
+          (row) => row
+              .map(
+                (cell) => MineCell(
+                  isMine: cell.isMine,
+                  isRevealed: cell.isRevealed,
+                  isFlagged: cell.isFlagged,
+                  adjacentMines: cell.adjacentMines,
+                ),
+              )
+              .toList(),
+        )
+        .toList();
   }
 }

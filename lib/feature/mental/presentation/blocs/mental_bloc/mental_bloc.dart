@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 import 'package:grid_wars/feature/mental/domain/entities/answer.dart';
 import 'package:grid_wars/feature/mental/domain/entities/mental_question.dart';
 
@@ -80,6 +81,7 @@ class MentalBloc extends Bloc<MentalEvent, MentalState> {
     if (state.correctAnswerCount >= 10) {
       unawaited(DailyChallengeService.notifyGameCompleted('math'));
     }
+    unawaited(GameStatsService.recordCompletion('math', value: state.correctAnswerCount));
 
     emit(state.copyWith(isGameOver: true));
 

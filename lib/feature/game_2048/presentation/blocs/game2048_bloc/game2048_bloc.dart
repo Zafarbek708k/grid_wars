@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grid_wars/core/service/storage_service.dart';
 import 'package:grid_wars/feature/daily_challenge/domain/services/daily_challenge_service.dart';
 import 'package:grid_wars/feature/game_2048/domain/entities/swipe_direction.dart';
+import 'package:grid_wars/feature/game_stats/domain/services/game_stats_service.dart';
 import 'package:grid_wars/feature/game_2048/domain/services/game_2048_engine.dart';
 
 export 'package:grid_wars/feature/game_2048/domain/entities/swipe_direction.dart';
@@ -48,6 +49,7 @@ class Game2048Bloc extends Bloc<Game2048Event, Game2048State> {
     final bool hasWon = state.hasWon || Game2048Engine.hasReached2048(boardWithNewTile);
     if (!state.hasWon && hasWon) unawaited(DailyChallengeService.notifyGameCompleted('game2048'));
     final bool isGameOver = !Game2048Engine.hasMovesLeft(boardWithNewTile);
+    if (isGameOver) unawaited(GameStatsService.recordCompletion('game2048', value: newScore));
 
     if (newBest != state.best) {
       unawaited(StorageRepository.putInt(_bestScoreKey, newBest));
