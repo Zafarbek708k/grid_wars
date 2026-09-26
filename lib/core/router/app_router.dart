@@ -1,14 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:grid_wars/feature/game/memory_match/presentation/blocs/memory_match_bloc.dart';
-import 'package:grid_wars/feature/game/memory_match/presentation/pages/memory_match.dart';
-import 'package:grid_wars/feature/game/x_and_o/presentation/blocs/x_o_bloc.dart';
-import 'package:grid_wars/feature/game/x_and_o/presentation/pages/x_and_o.dart';
+import 'package:grid_wars/feature/memory_match/presentation/blocs/memory_match_bloc/memory_match_bloc.dart';
+import 'package:grid_wars/feature/memory_match/presentation/pages/memory_match.dart';
+import 'package:grid_wars/feature/mental/presentation/blocs/mental_bloc/mental_bloc.dart';
+import 'package:grid_wars/feature/mental/presentation/pages/mental.dart';
+import 'package:grid_wars/feature/nard/presentation/blocs/nard_bloc/nard_bloc.dart';
+import 'package:grid_wars/feature/nard/presentation/pages/nard.dart';
+import 'package:grid_wars/feature/puzzle15/presentation/blocs/puzzle15_bloc/puzzle15_bloc.dart';
+import 'package:grid_wars/feature/puzzle15/presentation/pages/puzzle15.dart';
+import 'package:grid_wars/feature/sudoku/presentation/blocs/sudoku_bloc/sudoku_bloc.dart';
+import 'package:grid_wars/feature/sudoku/presentation/pages/sudoku.dart';
+import 'package:grid_wars/feature/x_and_o/presentation/blocs/x_and_o_bloc/x_o_bloc.dart';
+import 'package:grid_wars/feature/x_and_o/presentation/pages/x_and_o.dart';
+import 'package:grid_wars/feature/platformer/presentation/pages/platformer_home_screen.dart';
 
 class AppRouter {
   static const String xAndO = '/x_and_o';
   static const String memoryMatch = '/memory_match';
+  static const String mental = '/mental';
+  static const String platformer = '/platformer';
+  static const String puzzle15 = '/puzzle15';
+  static const String sudoku = '/sudoku';
+  static const String nard = '/nard';
 
   static Route<Object?> onGenerateRoute(RouteSettings setting) {
     return switch (setting.name) {
@@ -29,6 +43,46 @@ class AppRouter {
           child: const MemoryMatch(),
         ),
         settings: RouteSettings(name: AppRouter.memoryMatch),
+      ),
+      mental => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return MentalBloc();
+          },
+          child: const Mental(),
+        ),
+        settings: RouteSettings(name: AppRouter.mental),
+      ),
+      platformer => MaterialPageRoute(
+        builder: (context) => const PlatformerHomeScreen(),
+        settings: RouteSettings(name: AppRouter.platformer),
+      ),
+      puzzle15 => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return Puzzle15Bloc();
+          },
+          child: const Puzzle15(),
+        ),
+        settings: RouteSettings(name: AppRouter.puzzle15),
+      ),
+      sudoku => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return SudokuBloc();
+          },
+          child: const Sudoku(),
+        ),
+        settings: RouteSettings(name: AppRouter.sudoku),
+      ),
+      nard => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return NardBloc();
+          },
+          child: const Nard(),
+        ),
+        settings: RouteSettings(name: AppRouter.nard),
       ),
       _ => MaterialPageRoute(
         builder: (context) {

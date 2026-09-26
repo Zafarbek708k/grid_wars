@@ -1,5 +1,5 @@
 {
-  "app_name": "Grid Wars",
+  "app_name": "Game Hub",
   "play": "Играть",
   "coming_soon": "Скоро",
   "rating": "Рейтинг",
@@ -37,5 +37,11 @@
   "games": "Игры",
   "play_again": "Играть снова",
   "reset_game": "Сбросить игру",
-  "back_to_home": "На главную"
+  "back_to_home": "На главную",
+  "your_answer": "Ваш ответ",
+  "correct_answer": "Правильный ответ",
+  "result": "Результат",
+  "share_app": "Поделиться приложением",
+  "share_desc": "Поделитесь игрой Game Hub с друзьями в Google Play",
+  "link_copied": "Ссылка скопирована!"
 }

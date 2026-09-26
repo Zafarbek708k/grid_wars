@@ -33,6 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 12),
             PlayCard(
               onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.platformer);
+              },
+              item: HomeScreenApps.mario2D,
+            ),
+            PlayCard(
+              onTap: () {
                 Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.xAndO);
               },
               item: HomeScreenApps.ticTacToe,
@@ -43,7 +49,30 @@ class _HomeScreenState extends State<HomeScreen> {
               },
               item: HomeScreenApps.memoryMatch,
             ),
-            
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.mental);
+              },
+              item: HomeScreenApps.math,
+            ),
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.puzzle15);
+              },
+              item: HomeScreenApps.fifteenPuzzle,
+            ),
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.sudoku);
+              },
+              item: HomeScreenApps.sudoku,
+            ),
+            PlayCard(
+              onTap: () {
+                Navigator.of(context, rootNavigator: true).pushNamed(AppRouter.nard);
+              },
+              item: HomeScreenApps.nard,
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),
