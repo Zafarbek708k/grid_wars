@@ -16,6 +16,7 @@ const Map<HomeScreenApps, Color> gameAccentColors = {
   HomeScreenApps.wordSearch: AppColors.pink,
   HomeScreenApps.game2048: AppColors.amber,
   HomeScreenApps.minesweeper: AppColors.lime,
+  HomeScreenApps.oceanSweep: AppColors.cyan,
 };
 
 Color gameAccentColor(HomeScreenApps app) => gameAccentColors[app] ?? AppColors.cyan;

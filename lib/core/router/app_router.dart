@@ -9,6 +9,7 @@ import 'package:grid_wars/feature/minesweeper/presentation/blocs/minesweeper_blo
 import 'package:grid_wars/feature/minesweeper/presentation/pages/minesweeper.dart';
 import 'package:grid_wars/feature/nard/presentation/blocs/nard_bloc/nard_bloc.dart';
 import 'package:grid_wars/feature/nard/presentation/pages/nard.dart';
+import 'package:grid_wars/feature/ocean_sweep/presentation/pages/ocean_sweep_page.dart';
 import 'package:grid_wars/feature/puzzle15/presentation/blocs/puzzle15_bloc/puzzle15_bloc.dart';
 import 'package:grid_wars/feature/puzzle15/presentation/pages/puzzle15.dart';
 import 'package:grid_wars/feature/sudoku/presentation/blocs/sudoku_bloc/sudoku_bloc.dart';
@@ -29,6 +30,7 @@ class AppRouter {
   static const String game2048 = '/game2048';
   static const String minesweeper = '/minesweeper';
   static const String wordSearch = '/word_search';
+  static const String oceanSweep = '/ocean_sweep';
 
   static Route<Object?> onGenerateRoute(RouteSettings setting) {
     return switch (setting.name) {
@@ -107,6 +109,10 @@ class AppRouter {
           child: const WordSearch(),
         ),
         settings: RouteSettings(name: AppRouter.wordSearch),
+      ),
+      oceanSweep => MaterialPageRoute(
+        builder: (context) => const OceanSweepPage(),
+        settings: RouteSettings(name: AppRouter.oceanSweep),
       ),
       _ => MaterialPageRoute(
         builder: (context) {

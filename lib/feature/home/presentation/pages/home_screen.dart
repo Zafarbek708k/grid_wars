@@ -30,6 +30,7 @@ class _HomeScreenState extends State<HomeScreen> {
     (HomeScreenApps.nard, AppRouter.nard),
     (HomeScreenApps.wordSearch, AppRouter.wordSearch),
     (HomeScreenApps.minesweeper, AppRouter.minesweeper),
+    (HomeScreenApps.oceanSweep, AppRouter.oceanSweep),
   ];
 
   @override

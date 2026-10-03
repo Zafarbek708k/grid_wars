@@ -65,4 +65,11 @@ const List<GameStatDefinition> allGameStatDefinitions = [
   GameStatDefinition(id: 'minesweeper', title: 'Minesweeper', icon: AppIcons.game, countLabel: 'Wins'),
   GameStatDefinition(id: 'wordSearch', title: 'Word Search', icon: AppIcons.language, countLabel: 'Completed'),
   GameStatDefinition(id: 'nard', title: 'Nard', icon: AppIcons.dice5, countLabel: 'Rolls'),
+  GameStatDefinition(
+    id: 'oceanSweep',
+    title: 'Ocean Sweep',
+    icon: AppIcons.game,
+    countLabel: 'Games Played',
+    bestMetricLabel: 'Best Score',
+  ),
 ];

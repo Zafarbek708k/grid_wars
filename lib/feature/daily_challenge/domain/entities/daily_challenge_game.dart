@@ -80,4 +80,11 @@ const List<DailyChallengeGame> dailyChallengeGames = [
     icon: AppIcons.language,
     route: AppRouter.wordSearch,
   ),
+  DailyChallengeGame(
+    id: 'oceanSweep',
+    title: 'Ocean Sweep',
+    description: 'Collect plastic and survive a run',
+    icon: AppIcons.game,
+    route: AppRouter.oceanSweep,
+  ),
 ];
