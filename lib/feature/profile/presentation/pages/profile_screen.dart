@@ -15,7 +15,7 @@ import 'package:grid_wars/feature/profile/presentation/widgets/profile_card.dart
 import 'package:grid_wars/feature/profile/presentation/widgets/profile_header.dart';
 import 'package:grid_wars/feature/settings/presentation/blocs/app_setting_bloc/app_setting_bloc.dart';
 import 'package:grid_wars/feature/settings/presentation/widgets/app_screen.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:share_plus/share_plus.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,6 +25,20 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  static const String _playStoreUrl =
+      'https://play.google.com/store/apps/details?id=com.karimov.gridwars.grid_wars&pcampaignid=web_share';
+
+  Future<void> _shareApp(BuildContext context) async {
+    final RenderBox? box = context.findRenderObject() as RenderBox?;
+    await SharePlus.instance.share(
+      ShareParams(
+        text: '${LocaleKeys.shareDesc.tr()}\n$_playStoreUrl',
+        subject: LocaleKeys.appName.tr(),
+        sharePositionOrigin: box != null ? (box.localToGlobal(Offset.zero) & box.size) : null,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return AppScreen(
@@ -111,17 +125,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             height: 46,
                             child: ClayButton(
                               expand: true,
-                              icon: Icons.shop_two_rounded,
-                              label: 'Google Play',
+                              icon: Icons.share_rounded,
+                              label: LocaleKeys.share.tr(),
                               color: AppColors.blue,
-                              onTap: () async {
-                                final Uri uri = Uri.parse(
-                                  'https://play.google.com/store/apps/details?id=com.karimov.gridwars.grid_wars&pcampaignid=web_share',
-                                );
-                                if (await canLaunchUrl(uri)) {
-                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
-                                }
-                              },
+                              // Opens the OS share sheet (WhatsApp, Telegram,
+                              // Instagram, Messages, etc. — whatever's
+                              // installed), instead of only opening the
+                              // Play Store listing directly.
+                              onTap: () => _shareApp(context),
                             ),
                           ),
                         ),
@@ -131,9 +142,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           color: AppColors.grey,
                           size: 46,
                           onTap: () async {
-                            const String url =
-                                'https://play.google.com/store/apps/details?id=com.karimov.gridwars.grid_wars&pcampaignid=web_share';
-                            await Clipboard.setData(const ClipboardData(text: url));
+                            await Clipboard.setData(const ClipboardData(text: _playStoreUrl));
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(

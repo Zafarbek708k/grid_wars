@@ -44,5 +44,6 @@ abstract class LocaleKeys {
   static const String correctAnswer = 'correct_answer';
   static const String shareApp = 'share_app';
   static const String shareDesc = 'share_desc';
+  static const String share = 'share';
   static const String linkCopied = 'link_copied';
 }
