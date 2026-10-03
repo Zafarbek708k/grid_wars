@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
+
 class PauseOverlay extends StatelessWidget {
   final VoidCallback onResume;
   final VoidCallback onRestart;
@@ -19,24 +21,9 @@ class PauseOverlay extends StatelessWidget {
       icon: Icons.pause_circle_outline,
       accentColor: Colors.cyanAccent,
       actions: [
-        _ModalButton(
-          label: 'RESUME',
-          icon: Icons.play_arrow_rounded,
-          color: Colors.cyanAccent,
-          onTap: onResume,
-        ),
-        _ModalButton(
-          label: 'RESTART',
-          icon: Icons.replay_rounded,
-          color: Colors.amberAccent,
-          onTap: onRestart,
-        ),
-        _ModalButton(
-          label: 'QUIT',
-          icon: Icons.exit_to_app_rounded,
-          color: Colors.redAccent,
-          onTap: onExit,
-        ),
+        ClayButton(compact: true, label: 'RESUME', icon: Icons.play_arrow_rounded, color: Colors.cyanAccent, onTap: onResume),
+        ClayButton(compact: true, label: 'RESTART', icon: Icons.replay_rounded, color: Colors.amberAccent, onTap: onRestart),
+        ClayButton(compact: true, label: 'QUIT', icon: Icons.exit_to_app_rounded, color: Colors.redAccent, onTap: onExit),
       ],
     );
   }
@@ -62,18 +49,8 @@ class GameOverOverlay extends StatelessWidget {
       icon: Icons.sentiment_very_dissatisfied_rounded,
       accentColor: Colors.redAccent,
       actions: [
-        _ModalButton(
-          label: 'TRY AGAIN',
-          icon: Icons.replay_rounded,
-          color: Colors.greenAccent,
-          onTap: onRestart,
-        ),
-        _ModalButton(
-          label: 'EXIT TO MENU',
-          icon: Icons.home_rounded,
-          color: Colors.white70,
-          onTap: onExit,
-        ),
+        ClayButton(compact: true, label: 'TRY AGAIN', icon: Icons.replay_rounded, color: Colors.greenAccent, onTap: onRestart),
+        ClayButton(compact: true, label: 'EXIT TO MENU', icon: Icons.home_rounded, color: Colors.blueGrey, onTap: onExit),
       ],
     );
   }
@@ -106,24 +83,9 @@ class LevelCompleteOverlay extends StatelessWidget {
       accentColor: Colors.amberAccent,
       actions: [
         if (!isLastLevel)
-          _ModalButton(
-            label: 'NEXT LEVEL',
-            icon: Icons.arrow_forward_rounded,
-            color: Colors.amberAccent,
-            onTap: onNextLevel,
-          ),
-        _ModalButton(
-          label: 'REPLAY',
-          icon: Icons.replay_rounded,
-          color: Colors.cyanAccent,
-          onTap: onRestart,
-        ),
-        _ModalButton(
-          label: 'EXIT',
-          icon: Icons.home_rounded,
-          color: Colors.white70,
-          onTap: onExit,
-        ),
+          ClayButton(compact: true, label: 'NEXT LEVEL', icon: Icons.arrow_forward_rounded, color: Colors.amberAccent, onTap: onNextLevel),
+        ClayButton(compact: true, label: 'REPLAY', icon: Icons.replay_rounded, color: Colors.cyanAccent, onTap: onRestart),
+        ClayButton(compact: true, label: 'EXIT', icon: Icons.home_rounded, color: Colors.blueGrey, onTap: onExit),
       ],
     );
   }
@@ -191,54 +153,11 @@ class _BaseModal extends StatelessWidget {
               ),
             ],
             const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            Wrap(
+              alignment: WrapAlignment.center,
+              spacing: 10,
+              runSpacing: 10,
               children: actions,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ModalButton extends StatelessWidget {
-  final String label;
-  final IconData icon;
-  final Color color;
-  final VoidCallback onTap;
-
-  const _ModalButton({
-    required this.label,
-    required this.icon,
-    required this.color,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius: BorderRadius.circular(12),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
-        decoration: BoxDecoration(
-          color: color.withValues(alpha: 0.15),
-          borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: color, width: 1.5),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 18, color: color),
-            const SizedBox(width: 6),
-            Text(
-              label,
-              style: TextStyle(
-                color: color,
-                fontSize: 12,
-                fontWeight: FontWeight.w900,
-              ),
             ),
           ],
         ),

@@ -3,9 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/game_accent_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
+import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/nard/presentation/blocs/nard_bloc/nard_bloc.dart';
 
 class Nard extends StatelessWidget {
@@ -24,9 +27,10 @@ class Nard extends StatelessWidget {
           'Nard',
           style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
         ),
-        leading: AnimatedButton(
-          child: Icon(Icons.arrow_back_ios, color: context.themeExtension.whiteToCyan),
+        leading: ClayIconButton(
+          icon: Icons.arrow_back_ios_new_rounded,
           onTap: () => Navigator.of(context).pop(),
+          color: gameAccentColor(HomeScreenApps.nard),
         ),
       ),
       body: DecoratedBox(
@@ -43,6 +47,35 @@ class Nard extends StatelessWidget {
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: GameMode.values.map((mode) {
+                      final bool isSelected = state.mode == mode;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: AnimatedButton(
+                          onTap: () => context.read<NardBloc>().add(SelectMode$NardEvent(mode: mode)),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                            decoration: BoxDecoration(
+                              color: isSelected ? Colors.cyanAccent.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(color: isSelected ? Colors.cyanAccent : Colors.white24, width: 1.5),
+                            ),
+                            child: Text(
+                              mode == GameMode.friend ? 'PLAY WITH FRIEND' : 'PLAY VS BOT',
+                              style: TextStyle(
+                                color: isSelected ? Colors.cyanAccent : Colors.white70,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 12,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                  const SizedBox(height: 24),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     child: Row(
@@ -58,7 +91,7 @@ class Nard extends StatelessWidget {
                         const SizedBox(width: 16),
                         Expanded(
                           child: _PlayerScoreCard(
-                            label: 'PLAYER 2',
+                            label: state.mode == GameMode.bot ? 'BOT' : 'PLAYER 2',
                             score: state.player2Score,
                             isActive: state.currentPlayer == 2,
                             color: Colors.amberAccent,
@@ -67,7 +100,7 @@ class Nard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  const SizedBox(height: 32),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
@@ -84,21 +117,33 @@ class Nard extends StatelessWidget {
                     ),
                   const SizedBox(height: 40),
                   AnimatedButton(
+                    isDisabled: state.isBotTurn,
                     onTap: () => context.read<NardBloc>().add(const RollDice$NardEvent()),
                     child: Container(
                       width: 220,
                       height: 56,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(16),
-                        gradient: const LinearGradient(colors: [Color(0xFF00E5FF), Color(0xFF00B0FF)]),
-                        boxShadow: [
-                          BoxShadow(color: const Color(0xFF00E5FF).withValues(alpha: 0.5), blurRadius: 16, offset: const Offset(0, 6)),
-                        ],
+                        gradient: LinearGradient(
+                          colors: state.isBotTurn
+                              ? [Colors.white24, Colors.white12]
+                              : const [Color(0xFF00E5FF), Color(0xFF00B0FF)],
+                        ),
+                        boxShadow: state.isBotTurn
+                            ? null
+                            : [
+                                BoxShadow(color: const Color(0xFF00E5FF).withValues(alpha: 0.5), blurRadius: 16, offset: const Offset(0, 6)),
+                              ],
                       ),
                       alignment: Alignment.center,
-                      child: const Text(
-                        'ROLL DICE',
-                        style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 18, letterSpacing: 1.2),
+                      child: Text(
+                        state.isBotTurn ? 'BOT IS ROLLING...' : 'ROLL DICE',
+                        style: TextStyle(
+                          color: state.isBotTurn ? Colors.white70 : Colors.black,
+                          fontWeight: FontWeight.w900,
+                          fontSize: state.isBotTurn ? 15 : 18,
+                          letterSpacing: 1.2,
+                        ),
                       ),
                     ),
                   ),
@@ -109,31 +154,10 @@ class Nard extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: GestureDetector(
+      floatingActionButton: ClayResetButton(
         onTap: () => context.read<NardBloc>().add(const ResetGame$NardEvent()),
-        child: Container(
-          height: 48,
-          margin: EdgeInsetsGeometry.fromLTRB(16, 0, 16, context.padding.bottom + 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(colors: [Colors.cyanAccent.withValues(alpha: 0.5), Colors.blueAccent.withValues(alpha: 0.5)]),
-            boxShadow: [BoxShadow(color: AppColors.black.withValues(alpha: 0.3), offset: const Offset(3, 3), blurRadius: 6)],
-            border: Border.all(color: AppColors.white.withValues(alpha: 0.4), width: 1.2),
-          ),
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.refresh, color: AppColors.white),
-                const SizedBox(width: 8),
-                Text(
-                  LocaleKeys.resetGame.tr(),
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
+        label: LocaleKeys.resetGame.tr(),
+        color: gameAccentColor(HomeScreenApps.nard),
       ),
     );
   }

@@ -4,8 +4,10 @@ import 'package:flutter_svg/svg.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
+import 'package:grid_wars/core/constants/game_accent_colors.dart';
+import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/mental/domain/entities/answer.dart';
 import 'package:grid_wars/feature/mental/domain/entities/mental_question.dart';
 import 'package:grid_wars/feature/mental/presentation/blocs/mental_bloc/mental_bloc.dart';
@@ -45,9 +47,10 @@ class _MentalState extends State<Mental> {
             'Mental',
             style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
           ),
-          leading: AnimatedButton(
-            child: Icon(Icons.arrow_back_ios, color: context.themeExtension.whiteToCyan),
+          leading: ClayIconButton(
+            icon: Icons.arrow_back_ios_new_rounded,
             onTap: () => Navigator.of(context).pop(),
+            color: gameAccentColor(HomeScreenApps.math),
           ),
         ),
         body: Padding(

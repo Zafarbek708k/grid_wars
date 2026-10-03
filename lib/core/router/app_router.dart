@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/feature/game_2048/presentation/blocs/game2048_bloc/game2048_bloc.dart';
 import 'package:grid_wars/feature/game_2048/presentation/pages/game_2048.dart';
-import 'package:grid_wars/feature/memory_match/presentation/blocs/memory_match_bloc/memory_match_bloc.dart';
-import 'package:grid_wars/feature/memory_match/presentation/pages/memory_match.dart';
 import 'package:grid_wars/feature/mental/presentation/blocs/mental_bloc/mental_bloc.dart';
 import 'package:grid_wars/feature/mental/presentation/pages/mental.dart';
 import 'package:grid_wars/feature/minesweeper/presentation/blocs/minesweeper_bloc/minesweeper_bloc.dart';
@@ -23,7 +21,6 @@ import 'package:grid_wars/feature/platformer/presentation/pages/platformer_home_
 
 class AppRouter {
   static const String xAndO = '/x_and_o';
-  static const String memoryMatch = '/memory_match';
   static const String mental = '/mental';
   static const String platformer = '/platformer';
   static const String puzzle15 = '/puzzle15';
@@ -43,15 +40,6 @@ class AppRouter {
           child: const XAndO(),
         ),
         settings: RouteSettings(name: AppRouter.xAndO),
-      ),
-      memoryMatch => MaterialPageRoute(
-        builder: (context) => BlocProvider(
-          create: (context) {
-            return MemoryMatchBloc();
-          },
-          child: const MemoryMatch(),
-        ),
-        settings: RouteSettings(name: AppRouter.memoryMatch),
       ),
       mental => MaterialPageRoute(
         builder: (context) => BlocProvider(

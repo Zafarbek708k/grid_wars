@@ -162,9 +162,9 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                 border: Border.all(color: AppColors.white.withValues(alpha: 0.25), width: 2),
               ),
               child: SvgPicture.asset(
-                AppIcons.logo,
-                width: 130,
-                height: 130,
+                AppIcons.game,
+                width: 110,
+                height: 110,
                 colorFilter: const ColorFilter.mode(AppColors.cyan, BlendMode.srcIn),
               ),
             ),

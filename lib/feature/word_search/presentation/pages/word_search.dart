@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/game_accent_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
+import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/word_search/presentation/blocs/word_search_bloc/word_search_bloc.dart';
 
 class WordSearch extends StatelessWidget {
@@ -24,9 +26,10 @@ class WordSearch extends StatelessWidget {
           'Word Search',
           style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
         ),
-        leading: AnimatedButton(
-          child: Icon(Icons.arrow_back_ios, color: context.themeExtension.whiteToCyan),
+        leading: ClayIconButton(
+          icon: Icons.arrow_back_ios_new_rounded,
           onTap: () => Navigator.of(context).pop(),
+          color: gameAccentColor(HomeScreenApps.wordSearch),
         ),
       ),
       body: DecoratedBox(
@@ -159,31 +162,10 @@ class WordSearch extends StatelessWidget {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: GestureDetector(
+      floatingActionButton: ClayResetButton(
         onTap: () => context.read<WordSearchBloc>().add(const NewGame$WordSearchEvent()),
-        child: Container(
-          height: 48,
-          margin: EdgeInsetsGeometry.fromLTRB(16, 0, 16, context.padding.bottom + 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(colors: [Colors.cyanAccent.withValues(alpha: 0.5), Colors.blueAccent.withValues(alpha: 0.5)]),
-            boxShadow: [BoxShadow(color: AppColors.black.withValues(alpha: 0.3), offset: const Offset(3, 3), blurRadius: 6)],
-            border: Border.all(color: AppColors.white.withValues(alpha: 0.4), width: 1.2),
-          ),
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.refresh, color: AppColors.white),
-                const SizedBox(width: 8),
-                Text(
-                  LocaleKeys.resetGame.tr(),
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
+        label: LocaleKeys.resetGame.tr(),
+        color: gameAccentColor(HomeScreenApps.wordSearch),
       ),
     );
   }
@@ -215,19 +197,25 @@ class _WinDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
-                  ElevatedButton(
-                    onPressed: () {
+                  ClayButton(
+                    compact: true,
+                    icon: Icons.replay_rounded,
+                    color: gameAccentColor(HomeScreenApps.wordSearch),
+                    label: LocaleKeys.playAgain.tr(),
+                    onTap: () {
                       Navigator.of(context).pop();
                       context.read<WordSearchBloc>().add(const NewGame$WordSearchEvent());
                     },
-                    child: Text(LocaleKeys.playAgain.tr()),
                   ),
-                  ElevatedButton(
-                    onPressed: () {
+                  ClayButton(
+                    compact: true,
+                    icon: Icons.home_rounded,
+                    color: AppColors.grey,
+                    label: LocaleKeys.backToHome.tr(),
+                    onTap: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
-                    child: Text(LocaleKeys.backToHome.tr()),
                   ),
                 ],
               ),

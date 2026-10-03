@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/enums/home_screen_apps.dart';
+import 'package:grid_wars/core/constants/game_accent_colors.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/platformer/presentation/pages/platformer_game_page.dart';
 
 class PlatformerHomeScreen extends StatelessWidget {
@@ -25,27 +27,12 @@ class PlatformerHomeScreen extends StatelessWidget {
               Positioned(
                 top: 12,
                 left: 16,
-                child: AnimatedButton(
+                child: ClayButton(
+                  compact: true,
+                  icon: Icons.arrow_back_ios_new_rounded,
+                  label: 'MAIN MENU',
+                  color: gameAccentColor(HomeScreenApps.mario2D),
                   onTap: () => Navigator.of(context).pop(),
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.white24),
-                    ),
-                    child: const Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(Icons.arrow_back_ios, color: Colors.white, size: 16),
-                        SizedBox(width: 4),
-                        Text(
-                          'MAIN MENU',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 12),
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
               ),
 
@@ -122,41 +109,17 @@ class PlatformerHomeScreen extends StatelessWidget {
                       const SizedBox(height: 36),
 
                       // PLAY BUTTON
-                      AnimatedButton(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PlatformerGamePage()));
-                        },
-                        child: Container(
-                          width: 220,
-                          height: 54,
-                          decoration: BoxDecoration(
-                            gradient: const LinearGradient(colors: [Color(0xFF00E5FF), Color(0xFF00B0FF)]),
-                            borderRadius: BorderRadius.circular(16),
-                            boxShadow: [
-                              BoxShadow(
-                                color: const Color(0xFF00E5FF).withValues(alpha: 0.6),
-                                blurRadius: 20,
-                                offset: const Offset(0, 6),
-                              ),
-                            ],
-                          ),
-                          alignment: Alignment.center,
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(Icons.play_arrow_rounded, color: Colors.black, size: 30),
-                              SizedBox(width: 8),
-                              Text(
-                                'PLAY NOW',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w900,
-                                  fontSize: 18,
-                                  letterSpacing: 1.5,
-                                ),
-                              ),
-                            ],
-                          ),
+                      SizedBox(
+                        width: 220,
+                        height: 54,
+                        child: ClayButton(
+                          expand: true,
+                          icon: Icons.play_arrow_rounded,
+                          label: 'PLAY NOW',
+                          color: gameAccentColor(HomeScreenApps.mario2D),
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(builder: (_) => const PlatformerGamePage()));
+                          },
                         ),
                       ),
 

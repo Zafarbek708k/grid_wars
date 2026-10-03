@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:grid_wars/core/constants/locale_keys.dart';
-import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/daily_challenge/presentation/blocs/daily_challenge_cubit.dart';
 import 'package:grid_wars/feature/settings/presentation/widgets/app_screen.dart';
 
@@ -131,27 +131,18 @@ class _FeaturedGameCard extends StatelessWidget {
               ),
             )
           else
-            AnimatedButton(
-              onTap: () async {
-                await Navigator.of(context, rootNavigator: true).pushNamed(game.route);
-                if (context.mounted) context.read<DailyChallengeCubit>().refresh();
-              },
-              child: Container(
-                width: 200,
-                height: 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(14),
-                  gradient: const LinearGradient(colors: [Color(0xFF00E5FF), Color(0xFF00B0FF)]),
-                ),
-                alignment: Alignment.center,
-                child: const Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.play_arrow_rounded, color: Colors.black),
-                    SizedBox(width: 6),
-                    Text('PLAY', style: TextStyle(color: Colors.black, fontWeight: FontWeight.w900, fontSize: 16, letterSpacing: 1.0)),
-                  ],
-                ),
+            SizedBox(
+              width: 200,
+              height: 50,
+              child: ClayButton(
+                expand: true,
+                icon: Icons.play_arrow_rounded,
+                label: 'PLAY',
+                color: Colors.cyanAccent,
+                onTap: () async {
+                  await Navigator.of(context, rootNavigator: true).pushNamed(game.route);
+                  if (context.mounted) context.read<DailyChallengeCubit>().refresh();
+                },
               ),
             ),
         ],

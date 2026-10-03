@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/game_accent_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
+import 'package:grid_wars/core/enums/game_item_type_enum.dart';
+import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
 import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/x_and_o/presentation/blocs/x_and_o_bloc/x_o_bloc.dart';
 
 class XAndO extends StatefulWidget {
@@ -34,9 +38,10 @@ class _XAndOState extends State<XAndO> {
           'Game Hub',
           style: context.textTheme.bodyLarge?.copyWith(color: context.themeExtension.whiteToCyan, fontWeight: FontWeight.w900),
         ),
-        leading: AnimatedButton(
-          child: Icon(Icons.arrow_back_ios, color: context.themeExtension.whiteToCyan),
+        leading: ClayIconButton(
+          icon: Icons.arrow_back_ios_new_rounded,
           onTap: () => Navigator.of(context).pop(),
+          color: gameAccentColor(HomeScreenApps.ticTacToe),
         ),
       ),
       body: Container(
@@ -49,18 +54,82 @@ class _XAndOState extends State<XAndO> {
         ),
         child: BlocBuilder<XOBloc, XOState>(
           builder: (context, state) {
+            final bool botIsO = state.mode == GameMode.bot;
+            String playerLabel(GameItemTypeEnum player) => (botIsO && player.isO) ? 'BOT' : player.name;
+            String winnerLabel() => (botIsO && state.winner == GameItemTypeEnum.o.name) ? 'BOT' : (state.winner ?? '');
+
             return Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: GameMode.values.map((mode) {
+                    final bool isSelected = state.mode == mode;
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 6),
+                      child: AnimatedButton(
+                        onTap: () => context.read<XOBloc>().add(SelectMode$XOEvent(mode: mode)),
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                          decoration: BoxDecoration(
+                            color: isSelected ? Colors.cyanAccent.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.05),
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: isSelected ? Colors.cyanAccent : Colors.white24, width: 1.5),
+                          ),
+                          child: Text(
+                            mode == GameMode.friend ? 'PLAY WITH FRIEND' : 'PLAY VS BOT',
+                            style: TextStyle(
+                              color: isSelected ? Colors.cyanAccent : Colors.white70,
+                              fontWeight: FontWeight.w800,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                ),
+                if (state.mode == GameMode.bot) ...[
+                  const SizedBox(height: 10),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: BotDifficulty.values.map((difficulty) {
+                      final bool isSelected = state.botDifficulty == difficulty;
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: AnimatedButton(
+                          onTap: () => context.read<XOBloc>().add(SelectDifficulty$XOEvent(difficulty: difficulty)),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+                            decoration: BoxDecoration(
+                              color: isSelected ? Colors.amberAccent.withValues(alpha: 0.2) : Colors.white.withValues(alpha: 0.05),
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: isSelected ? Colors.amberAccent : Colors.white24, width: 1.2),
+                            ),
+                            child: Text(
+                              difficulty.label,
+                              style: TextStyle(
+                                color: isSelected ? Colors.amberAccent : Colors.white70,
+                                fontWeight: FontWeight.w800,
+                                fontSize: 11,
+                              ),
+                            ),
+                          ),
+                        ),
+                      );
+                    }).toList(),
+                  ),
+                ],
+                const SizedBox(height: 12),
                 AnimatedSwitcher(
                   duration: const Duration(milliseconds: 300),
                   child: Text(
                     state.isGameOver
-                        ? (state.winner == "Draw" ? "🤝 It's a Draw!" : "🎉 Player ${state.winner} Wins!")
-                        : "🔥 Turn: ${state.currentPlayer.name}",
-                    key: ValueKey(state.isGameOver),
+                        ? (state.winner == "Draw" ? "🤝 It's a Draw!" : "🎉 ${winnerLabel()} Wins!")
+                        : (state.isBotTurn ? "🤖 Bot is thinking..." : "🔥 Turn: ${playerLabel(state.currentPlayer)}"),
+                    key: ValueKey('${state.isGameOver}-${state.isBotTurn}'),
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 28,
                       fontWeight: FontWeight.bold,
                       color: state.isGameOver
                           ? (state.winner == "Draw" ? Colors.amber : Colors.greenAccent)
@@ -85,6 +154,7 @@ class _XAndOState extends State<XAndO> {
                       final isWinCell = state.winningLine.contains(index);
 
                       return AnimatedButton(
+                        isDisabled: state.isBotTurn,
                         onTap: () {
                           context.read<XOBloc>().add(TabEvent(index: index));
                         },
@@ -133,35 +203,10 @@ class _XAndOState extends State<XAndO> {
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton: GestureDetector(
-        onTap: () {
-          context.read<XOBloc>().add(ResetGameEvent());
-        },
-        child: Container(
-          height: 48,
-          margin: EdgeInsetsGeometry.fromLTRB(16, 0, 16, context.padding.bottom + 12),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(12),
-            gradient: LinearGradient(
-              colors: [Colors.cyanAccent.withValues(alpha: 0.5), Colors.blueAccent.withValues(alpha: 0.5)],
-            ),
-            boxShadow: [BoxShadow(color: AppColors.black.withValues(alpha: 0.3), offset: const Offset(3, 3), blurRadius: 6)],
-            border: Border.all(color: AppColors.white.withValues(alpha: 0.4), width: 1.2),
-          ),
-          child: Center(
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.refresh, color: AppColors.white),
-                const SizedBox(width: 8),
-                Text(
-                  LocaleKeys.resetGame.tr(),
-                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: AppColors.white),
-                ),
-              ],
-            ),
-          ),
-        ),
+      floatingActionButton: ClayResetButton(
+        onTap: () => context.read<XOBloc>().add(ResetGameEvent()),
+        label: LocaleKeys.resetGame.tr(),
+        color: gameAccentColor(HomeScreenApps.ticTacToe),
       ),
     );
   }

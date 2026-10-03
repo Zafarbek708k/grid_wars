@@ -5,7 +5,6 @@ enum HomeScreenApps {
   ticTacToe(icon: AppIcons.ticTac, name: "Tic Tac Toe", rating: 5, isActive: true),
   fifteenPuzzle(icon: AppIcons.game, name: "15 Puzzle", rating: 4, isActive: true),
   chess(icon: AppIcons.chessRook, name: "Chess", rating: 5, isActive: false),
-  memoryMatch(icon: AppIcons.brain, name: "Memory Match", rating: 4, isActive: true),
   sudoku(icon: AppIcons.sudoku, name: "Sudoku", rating: 3, isActive: true),
   math(icon: AppIcons.plusEqual, name: "Mental", rating: 5, isActive: true),
   nard(icon: AppIcons.dice5, name: "Nard", rating: 3, isActive: true),
@@ -27,8 +26,6 @@ enum HomeScreenApps {
   bool get isFifteenPuzzle => this == HomeScreenApps.fifteenPuzzle;
 
   bool get isChess => this == HomeScreenApps.chess;
-
-  bool get isMemoryMatch => this == HomeScreenApps.memoryMatch;
 
   bool get isSudoku => this == HomeScreenApps.sudoku;
 

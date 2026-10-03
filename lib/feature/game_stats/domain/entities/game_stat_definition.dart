@@ -25,7 +25,6 @@ class GameStatDefinition {
 /// Every game in the app, in the order they should list in Profile history.
 const List<GameStatDefinition> allGameStatDefinitions = [
   GameStatDefinition(id: 'ticTacToe', title: 'Tic Tac Toe', icon: AppIcons.ticTac, countLabel: 'Wins'),
-  GameStatDefinition(id: 'memoryMatch', title: 'Memory Match', icon: AppIcons.brain, countLabel: 'Completed'),
   GameStatDefinition(
     id: 'math',
     title: 'Mental Math',

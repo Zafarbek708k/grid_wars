@@ -24,7 +24,6 @@ class _HomeScreenState extends State<HomeScreen> {
     (HomeScreenApps.mario2D, AppRouter.platformer),
     (HomeScreenApps.ticTacToe, AppRouter.xAndO),
     (HomeScreenApps.game2048, AppRouter.game2048),
-    (HomeScreenApps.memoryMatch, AppRouter.memoryMatch),
     (HomeScreenApps.math, AppRouter.mental),
     (HomeScreenApps.fifteenPuzzle, AppRouter.puzzle15),
     (HomeScreenApps.sudoku, AppRouter.sudoku),

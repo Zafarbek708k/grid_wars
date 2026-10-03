@@ -32,13 +32,6 @@ const List<DailyChallengeGame> dailyChallengeGames = [
     route: AppRouter.xAndO,
   ),
   DailyChallengeGame(
-    id: 'memoryMatch',
-    title: 'Memory Match',
-    description: 'Clear the board by matching every pair',
-    icon: AppIcons.brain,
-    route: AppRouter.memoryMatch,
-  ),
-  DailyChallengeGame(
     id: 'math',
     title: 'Mental Math',
     description: 'Get through today\'s question set',

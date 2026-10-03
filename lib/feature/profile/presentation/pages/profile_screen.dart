@@ -6,7 +6,7 @@ import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/core/enums/language_enum.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/navigation/presentation/blocs/navigator_cubit.dart';
 import 'package:grid_wars/feature/profile/presentation/widgets/daily_challenge_summary_card.dart';
 import 'package:grid_wars/feature/profile/presentation/widgets/game_history_card.dart';
@@ -107,50 +107,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Row(
                       children: [
                         Expanded(
-                          child: AnimatedButton(
-                            onTap: () async {
-                              final Uri uri = Uri.parse(
-                                'https://play.google.com/store/apps/details?id=com.karimov.gridwars.grid_wars&pcampaignid=web_share',
-                              );
-                              if (await canLaunchUrl(uri)) {
-                                await launchUrl(uri, mode: LaunchMode.externalApplication);
-                              }
-                            },
-                            child: Container(
-                              height: 46,
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [Color(0xFF00C6FF), Color(0xFF0072FF)],
-                                ),
-                                borderRadius: BorderRadius.circular(12),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFF0072FF).withValues(alpha: 0.45),
-                                    blurRadius: 10,
-                                    offset: const Offset(0, 4),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Icon(Icons.shop_two_rounded, color: Colors.white, size: 22),
-                                  const SizedBox(width: 8),
-                                  Text(
-                                    'Google Play',
-                                    style: context.textTheme.bodyMedium?.copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.white,
-                                      letterSpacing: 0.5,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                          child: SizedBox(
+                            height: 46,
+                            child: ClayButton(
+                              expand: true,
+                              icon: Icons.shop_two_rounded,
+                              label: 'Google Play',
+                              color: AppColors.blue,
+                              onTap: () async {
+                                final Uri uri = Uri.parse(
+                                  'https://play.google.com/store/apps/details?id=com.karimov.gridwars.grid_wars&pcampaignid=web_share',
+                                );
+                                if (await canLaunchUrl(uri)) {
+                                  await launchUrl(uri, mode: LaunchMode.externalApplication);
+                                }
+                              },
                             ),
                           ),
                         ),
                         const SizedBox(width: 10),
-                        AnimatedButton(
+                        ClayIconButton(
+                          icon: Icons.copy_rounded,
+                          color: AppColors.grey,
+                          size: 46,
                           onTap: () async {
                             const String url =
                                 'https://play.google.com/store/apps/details?id=com.karimov.gridwars.grid_wars&pcampaignid=web_share';
@@ -166,16 +145,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               );
                             }
                           },
-                          child: Container(
-                            height: 46,
-                            width: 48,
-                            decoration: BoxDecoration(
-                              color: AppColors.white.withValues(alpha: 0.15),
-                              borderRadius: BorderRadius.circular(12),
-                              border: Border.all(color: Colors.white30),
-                            ),
-                            child: const Icon(Icons.copy_rounded, color: Colors.white, size: 20),
-                          ),
                         ),
                       ],
                     ),

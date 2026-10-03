@@ -19,3 +19,30 @@ class ResetGameEvent extends XOEvent {
   @override
   List<Object?> get props => [];
 }
+
+class SelectMode$XOEvent extends XOEvent {
+  final GameMode mode;
+
+  const SelectMode$XOEvent({required this.mode});
+
+  @override
+  List<Object?> get props => [mode];
+}
+
+class SelectDifficulty$XOEvent extends XOEvent {
+  final BotDifficulty difficulty;
+
+  const SelectDifficulty$XOEvent({required this.difficulty});
+
+  @override
+  List<Object?> get props => [difficulty];
+}
+
+/// Internal event: scheduled a short "thinking" delay after the human's
+/// move so the bot's reply doesn't appear instantly.
+class RequestBotMove$XOEvent extends XOEvent {
+  const RequestBotMove$XOEvent();
+
+  @override
+  List<Object?> get props => [];
+}

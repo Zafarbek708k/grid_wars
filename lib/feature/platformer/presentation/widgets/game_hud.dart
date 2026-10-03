@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/platformer/config/game_config.dart';
 
 class GameHud extends StatelessWidget {
@@ -92,12 +93,7 @@ class GameHud extends StatelessWidget {
             const SizedBox(width: 12),
 
             // PAUSE BUTTON
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              icon: const Icon(Icons.pause_circle_filled_rounded, color: Colors.white, size: 30),
-              onPressed: onPause,
-            ),
+            ClayIconButton(icon: Icons.pause_rounded, onTap: onPause, color: Colors.blueGrey, size: 34, iconSize: 18),
           ],
         ),
       ),

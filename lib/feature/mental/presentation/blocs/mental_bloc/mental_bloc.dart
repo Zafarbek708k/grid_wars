@@ -307,4 +307,13 @@ class MentalBloc extends Bloc<MentalEvent, MentalState> {
       _timer = null;
     }
   }
+
+  @override
+  Future<void> close() {
+    // The periodic timer started in _initialData otherwise keeps firing
+    // after the bloc is disposed (e.g. navigating away mid-game, before a
+    // game-over ever cancels it) and calls add() on a closed bloc forever.
+    _stopTimer();
+    return super.close();
+  }
 }

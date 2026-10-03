@@ -2,9 +2,11 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
+import 'package:grid_wars/core/constants/game_accent_colors.dart';
 import 'package:grid_wars/core/constants/locale_keys.dart';
+import 'package:grid_wars/core/enums/home_screen_apps.dart';
 import 'package:grid_wars/core/extensions/context_extension.dart';
-import 'package:grid_wars/core/widgets/buttons/animated_button.dart';
+import 'package:grid_wars/core/widgets/buttons/clay_button.dart';
 import 'package:grid_wars/feature/mental/presentation/widgets/math_text.dart';
 
 class MentalResultDialog extends StatelessWidget {
@@ -101,37 +103,22 @@ class MentalResultDialog extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AnimatedButton(
+                  ClayButton(
+                    compact: true,
+                    icon: Icons.replay_rounded,
+                    color: gameAccentColor(HomeScreenApps.math),
+                    label: LocaleKeys.playAgain.tr(),
                     onTap: onRestart,
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2C5364),
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(color: const Color(0xFF0F2027), width: 2),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(LocaleKeys.playAgain.tr()),
-                      ),
-                    ),
                   ),
-
-                  AnimatedButton(
+                  ClayButton(
+                    compact: true,
+                    icon: Icons.home_rounded,
+                    color: AppColors.grey,
+                    label: LocaleKeys.backToHome.tr(),
                     onTap: () {
                       Navigator.of(context).pop();
                       Navigator.of(context).pop();
                     },
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF2C5364),
-                        borderRadius: const BorderRadius.all(Radius.circular(10)),
-                        border: Border.all(color: const Color(0xFF0F2027), width: 2),
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(LocaleKeys.backToHome.tr()),
-                      ),
-                    ),
                   ),
                 ],
               ),
