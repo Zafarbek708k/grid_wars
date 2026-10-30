@@ -4,14 +4,18 @@ enum HomeScreenApps {
   mario2D(icon: AppIcons.game, name: "Super Platformer", rating: 5, isActive: true),
   ticTacToe(icon: AppIcons.ticTac, name: "Tic Tac Toe", rating: 5, isActive: true),
   fifteenPuzzle(icon: AppIcons.game, name: "15 Puzzle", rating: 4, isActive: true),
-  chess(icon: AppIcons.chessRook, name: "Chess", rating: 5, isActive: false),
+  chess(icon: AppIcons.chessRook, name: "Chess", rating: 5, isActive: true),
   sudoku(icon: AppIcons.sudoku, name: "Sudoku", rating: 3, isActive: true),
   math(icon: AppIcons.plusEqual, name: "Mental", rating: 5, isActive: true),
   nard(icon: AppIcons.dice5, name: "Nard", rating: 3, isActive: true),
   wordSearch(icon: AppIcons.language, name: "Word Search", rating: 4, isActive: true),
   game2048(icon: AppIcons.game, name: "2048", rating: 4, isActive: true),
   minesweeper(icon: AppIcons.game, name: "Minesweeper", rating: 4, isActive: true),
-  oceanSweep(icon: AppIcons.game, name: "Ocean Sweep", rating: 4, isActive: true);
+  oceanSweep(icon: AppIcons.game, name: "Ocean Sweep", rating: 4, isActive: false),
+  snake(icon: AppIcons.game, name: "Snake", rating: 4, isActive: true),
+  hangman(icon: AppIcons.language, name: "Hangman", rating: 4, isActive: true),
+  tetris(icon: AppIcons.game, name: "Tetris", rating: 5, isActive: true),
+  bubbleShooter(icon: AppIcons.game, name: "Bubble Shooter", rating: 4, isActive: true);
 
   const HomeScreenApps({required this.icon, required this.name, required this.rating, required this.isActive});
 
@@ -41,6 +45,14 @@ enum HomeScreenApps {
   bool get isMinesweeper => this == HomeScreenApps.minesweeper;
 
   bool get isOceanSweep => this == HomeScreenApps.oceanSweep;
+
+  bool get isSnake => this == HomeScreenApps.snake;
+
+  bool get isHangman => this == HomeScreenApps.hangman;
+
+  bool get isTetris => this == HomeScreenApps.tetris;
+
+  bool get isBubbleShooter => this == HomeScreenApps.bubbleShooter;
 
   static HomeScreenApps fromString(String value) {
     return HomeScreenApps.values.firstWhere((element) => element.name == value, orElse: () => HomeScreenApps.chess);

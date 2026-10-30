@@ -72,4 +72,27 @@ const List<GameStatDefinition> allGameStatDefinitions = [
     countLabel: 'Games Played',
     bestMetricLabel: 'Best Score',
   ),
+  GameStatDefinition(
+    id: 'snake',
+    title: 'Snake',
+    icon: AppIcons.game,
+    countLabel: 'Games Played',
+    bestMetricLabel: 'Best Score',
+  ),
+  GameStatDefinition(id: 'hangman', title: 'Hangman', icon: AppIcons.language, countLabel: 'Wins'),
+  GameStatDefinition(
+    id: 'tetris',
+    title: 'Tetris',
+    icon: AppIcons.game,
+    countLabel: 'Games Played',
+    bestMetricLabel: 'Best Score',
+  ),
+  GameStatDefinition(
+    id: 'bubbleShooter',
+    title: 'Bubble Shooter',
+    icon: AppIcons.game,
+    countLabel: 'Games Played',
+    bestMetricLabel: 'Best Score',
+  ),
+  GameStatDefinition(id: 'chess', title: 'Chess', icon: AppIcons.chessRook, countLabel: 'Games Played'),
 ];

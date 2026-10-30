@@ -10,7 +10,17 @@ import 'package:grid_wars/feature/minesweeper/presentation/pages/minesweeper.dar
 import 'package:grid_wars/feature/nard/presentation/blocs/nard_bloc/nard_bloc.dart';
 import 'package:grid_wars/feature/nard/presentation/pages/nard.dart';
 import 'package:grid_wars/feature/ocean_sweep/presentation/pages/ocean_sweep_page.dart';
+import 'package:grid_wars/feature/hangman/presentation/blocs/hangman_bloc/hangman_bloc.dart';
+import 'package:grid_wars/feature/hangman/presentation/pages/hangman.dart';
+import 'package:grid_wars/feature/bubble_shooter/presentation/blocs/bubble_shooter_cubit/bubble_shooter_cubit.dart';
+import 'package:grid_wars/feature/bubble_shooter/presentation/pages/bubble_shooter_page.dart';
+import 'package:grid_wars/feature/chess/presentation/blocs/chess_bloc/chess_bloc.dart';
+import 'package:grid_wars/feature/chess/presentation/pages/chess.dart';
 import 'package:grid_wars/feature/puzzle15/presentation/blocs/puzzle15_bloc/puzzle15_bloc.dart';
+import 'package:grid_wars/feature/snake/presentation/blocs/snake_cubit/snake_cubit.dart';
+import 'package:grid_wars/feature/snake/presentation/pages/snake_page.dart';
+import 'package:grid_wars/feature/tetris/presentation/blocs/tetris_cubit/tetris_cubit.dart';
+import 'package:grid_wars/feature/tetris/presentation/pages/tetris_page.dart';
 import 'package:grid_wars/feature/puzzle15/presentation/pages/puzzle15.dart';
 import 'package:grid_wars/feature/sudoku/presentation/blocs/sudoku_bloc/sudoku_bloc.dart';
 import 'package:grid_wars/feature/sudoku/presentation/pages/sudoku.dart';
@@ -31,6 +41,11 @@ class AppRouter {
   static const String minesweeper = '/minesweeper';
   static const String wordSearch = '/word_search';
   static const String oceanSweep = '/ocean_sweep';
+  static const String snake = '/snake';
+  static const String hangman = '/hangman';
+  static const String tetris = '/tetris';
+  static const String bubbleShooter = '/bubble_shooter';
+  static const String chess = '/chess';
 
   static Route<Object?> onGenerateRoute(RouteSettings setting) {
     return switch (setting.name) {
@@ -113,6 +128,51 @@ class AppRouter {
       oceanSweep => MaterialPageRoute(
         builder: (context) => const OceanSweepPage(),
         settings: RouteSettings(name: AppRouter.oceanSweep),
+      ),
+      snake => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return SnakeCubit();
+          },
+          child: const SnakePage(),
+        ),
+        settings: RouteSettings(name: AppRouter.snake),
+      ),
+      hangman => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return HangmanBloc();
+          },
+          child: const Hangman(),
+        ),
+        settings: RouteSettings(name: AppRouter.hangman),
+      ),
+      tetris => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return TetrisCubit();
+          },
+          child: const TetrisPage(),
+        ),
+        settings: RouteSettings(name: AppRouter.tetris),
+      ),
+      bubbleShooter => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return BubbleShooterCubit();
+          },
+          child: const BubbleShooterPage(),
+        ),
+        settings: RouteSettings(name: AppRouter.bubbleShooter),
+      ),
+      chess => MaterialPageRoute(
+        builder: (context) => BlocProvider(
+          create: (context) {
+            return ChessBloc();
+          },
+          child: const Chess(),
+        ),
+        settings: RouteSettings(name: AppRouter.chess),
       ),
       _ => MaterialPageRoute(
         builder: (context) {

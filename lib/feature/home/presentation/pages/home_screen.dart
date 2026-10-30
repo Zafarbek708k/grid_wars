@@ -31,10 +31,17 @@ class _HomeScreenState extends State<HomeScreen> {
     (HomeScreenApps.wordSearch, AppRouter.wordSearch),
     (HomeScreenApps.minesweeper, AppRouter.minesweeper),
     (HomeScreenApps.oceanSweep, AppRouter.oceanSweep),
+    (HomeScreenApps.snake, AppRouter.snake),
+    (HomeScreenApps.hangman, AppRouter.hangman),
+    (HomeScreenApps.tetris, AppRouter.tetris),
+    (HomeScreenApps.bubbleShooter, AppRouter.bubbleShooter),
+    (HomeScreenApps.chess, AppRouter.chess),
   ];
 
   @override
   Widget build(BuildContext context) {
+    final List<HomeScreenApps> inactiveGames = HomeScreenApps.values.where((e) => !e.isActive).toList();
+
     return AppScreen(
       title: LocaleKeys.homeScreen.tr(),
       body: SingleChildScrollView(
@@ -60,7 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               itemCount: _activeGames.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 3,
                 mainAxisSpacing: 12,
                 crossAxisSpacing: 12,
                 childAspectRatio: 1,
@@ -70,29 +77,27 @@ class _HomeScreenState extends State<HomeScreen> {
                 return PlayCard(onTap: () => Navigator.of(context, rootNavigator: true).pushNamed(route), item: item);
               },
             ),
-            const SizedBox(height: 12),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),
-            ),
-            const SizedBox(height: 12),
-
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              itemCount: HomeScreenApps.values.where((e) => !e.isActive).length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 12,
-                crossAxisSpacing: 12,
-                childAspectRatio: 1,
+            if (inactiveGames.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                child: Text(LocaleKeys.comingSoon.tr(), style: context.textTheme.bodyMedium),
               ),
-              itemBuilder: (context, index) {
-                final item = HomeScreenApps.values.where((e) => !e.isActive).toList()[index];
-                return InActiveGameCard(item: item);
-              },
-            ),
+              const SizedBox(height: 12),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                itemCount: inactiveGames.length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  mainAxisSpacing: 12,
+                  crossAxisSpacing: 12,
+                  childAspectRatio: 1,
+                ),
+                itemBuilder: (context, index) => InActiveGameCard(item: inactiveGames[index]),
+              ),
+            ],
             const SizedBox(height: 120),
           ],
         ),

@@ -1,12 +1,14 @@
 import 'dart:math' as math;
 import 'dart:ui';
 
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:grid_wars/core/constants/app_colors.dart';
 import 'package:grid_wars/core/constants/app_icons.dart';
+import 'package:grid_wars/core/constants/locale_keys.dart';
 import 'package:grid_wars/feature/navigation/main_navigation.dart';
 import 'package:grid_wars/feature/settings/presentation/blocs/app_config_bloc/app_config_bloc.dart';
 
@@ -180,9 +182,9 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                   position: _nameSlide,
                   child: FadeTransition(
                     opacity: _nameFade,
-                    child: const Text(
-                      'GRID WARS',
-                      style: TextStyle(fontSize: 30, fontWeight: FontWeight.w900, letterSpacing: 4, color: Colors.white),
+                    child: Text(
+                      LocaleKeys.appName.tr().toUpperCase(),
+                      style: const TextStyle(fontSize: 30, fontWeight: FontWeight.w900, letterSpacing: 4, color: Colors.white),
                     ),
                   ),
                 ),

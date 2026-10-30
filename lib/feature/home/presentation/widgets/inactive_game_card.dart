@@ -34,37 +34,41 @@ class InActiveGameCard extends StatelessWidget {
         children: [
           /// MAIN CONTENT
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 20, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 /// GAME ICON
                 SvgPicture.asset(
                   item.icon,
-                  height: 54,
-                  width: 54,
+                  height: 32,
+                  width: 32,
                   colorFilter: const ColorFilter.mode(Colors.white54, BlendMode.srcIn),
                 ),
 
-                const SizedBox(height: 14),
+                const SizedBox(height: 8),
 
                 /// GAME NAME
                 Text(
                   item.name,
                   textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                   style: context.textTheme.titleMedium?.copyWith(
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 1,
+                    letterSpacing: 0.3,
+                    fontSize: 11,
+                    height: 1.15,
                     color: Colors.white60,
                   ),
                 ),
 
-                const SizedBox(height: 6),
+                const SizedBox(height: 4),
 
                 /// COMING SOON
                 Text(
                   LocaleKeys.comingSoon.tr(),
-                  style: context.textTheme.bodySmall?.copyWith(color: Colors.white38, letterSpacing: 1.2),
+                  style: context.textTheme.bodySmall?.copyWith(color: Colors.white38, letterSpacing: 0.8, fontSize: 9),
                 ),
               ],
             ),
@@ -72,16 +76,16 @@ class InActiveGameCard extends StatelessWidget {
 
           /// LOCK OVERLAY
           Positioned(
-            top: 14,
-            right: 14,
+            top: 8,
+            right: 8,
             child: Container(
-              padding: const EdgeInsets.all(8),
+              padding: const EdgeInsets.all(6),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: Colors.black.withValues(alpha: 0.45),
                 boxShadow: [BoxShadow(color: Colors.cyan.withValues(alpha: 0.45), blurRadius: 14)],
               ),
-              child: const Icon(Icons.lock_rounded, size: 18, color: Colors.cyanAccent),
+              child: const Icon(Icons.lock_rounded, size: 14, color: Colors.cyanAccent),
             ),
           ),
         ],

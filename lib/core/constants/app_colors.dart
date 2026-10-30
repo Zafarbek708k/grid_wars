@@ -18,6 +18,7 @@ abstract class AppColors {
   static const amber = Color(0xffFFC107);
   static const indigo = Color(0xff3949AB);
   static const lime = Color(0xffCDDC39);
+  static const brown = Color(0xff6D4C41);
 
   // shader
 

@@ -21,9 +21,9 @@ class PlayCard extends StatelessWidget {
     return AnimatedButton(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.symmetric(vertical: 18, horizontal: 10),
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 6),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(22),
           gradient: LinearGradient(
             colors: [accent.withValues(alpha: 0.9), accent.withValues(alpha: 0.55)],
             begin: Alignment.topLeft,
@@ -39,7 +39,7 @@ class PlayCard extends StatelessWidget {
           ],
         ),
         child: ClipRRect(
-          borderRadius: BorderRadius.circular(28),
+          borderRadius: BorderRadius.circular(22),
           child: Stack(
             children: [
               // A top sheen to sell the "puffy clay" volume.
@@ -47,7 +47,7 @@ class PlayCard extends StatelessWidget {
                 top: 0,
                 left: 0,
                 right: 0,
-                height: 46,
+                height: 36,
                 child: DecoratedBox(
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
@@ -64,26 +64,30 @@ class PlayCard extends StatelessWidget {
                 children: [
                   SvgPicture.asset(
                     item.icon,
-                    height: 42,
-                    width: 42,
+                    height: 28,
+                    width: 28,
                     fit: BoxFit.cover,
                     colorFilter: const ColorFilter.mode(Colors.white, BlendMode.srcIn),
                   ),
-                  const SizedBox(height: 10),
-                  Text(
-                    item.name,
-                    textAlign: TextAlign.center,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: context.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      letterSpacing: 0.5,
-                      fontSize: 14,
-                      color: Colors.white,
+                  const SizedBox(height: 6),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: Text(
+                      item.name,
+                      textAlign: TextAlign.center,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: context.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.2,
+                        fontSize: 11,
+                        height: 1.15,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                  const SizedBox(height: 6),
-                  RatingStars(rating: item.rating),
+                  const SizedBox(height: 4),
+                  RatingStars(rating: item.rating, size: 10, spacing: 1.5),
                 ],
               ),
             ],
